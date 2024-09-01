@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Compile the C++ source file
+clang++ -std=c++11 -o main main.cpp
+
+# Run the compiled executable
+./main
