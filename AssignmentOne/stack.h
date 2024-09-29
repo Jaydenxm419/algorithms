@@ -14,6 +14,7 @@ public:
     Stack();  // Constructor
     void push(std::string data);  // Method to push an element onto the stack
     std::string pop();  // Method to pop an element from the stack
+    bool isEmpty();
 };
 
 #endif // STACK_H

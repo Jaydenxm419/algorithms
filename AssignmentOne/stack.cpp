@@ -28,3 +28,11 @@ std::string Stack::pop() {
     delete poppedNode;             // Delete the old top node to prevent data leakage
     return data;   // Return the data as a string
 }
+
+bool Stack::isEmpty() {
+    if (top == nullptr) {
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -33,6 +33,9 @@ std::string Queue::dequeue()
     std::string data = head->getData(); // Get the data of the head to be removed
     Node *oldHead = head; // Placeholder for removing the old head
     head = head->getNext(); // Make the next node in the queue (in the line) the new head
+    if (head == nullptr) {
+        tail = nullptr;
+    }
     delete oldHead; // delete the old head
     return data;
 }
