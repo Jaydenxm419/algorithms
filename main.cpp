@@ -3,6 +3,7 @@
 #include "AssignmentOne/node.h"
 #include "AssignmentOne/stack.h"
 #include "AssignmentOne/queue.h"
+#include "AssignmentOne/sorting.h"
 #include <fstream>
 #include <string>
 #include <vector>
@@ -139,8 +140,10 @@ int main()
         // Close the file to prevent errors
         file.close();
         // Iterrate through the array and add the elements to the linked list
-        linkedListTest(items);
-        searchForPalindromes(items, 666);
+        // linkedListTest(items);
+        // searchForPalindromes(items, 666);
+        Sorting sorting;
+        sorting.doSelectionSort(items, 666);
         // Handle error if the file doesn't exist
     }
     else
