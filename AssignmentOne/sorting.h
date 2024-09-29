@@ -7,4 +7,5 @@ public:
     int doInsertionSort();
     int doMergeSort();
     int doQuickSort();
+    std::string* doKnuthShuffle(std::string* items, int size);
 };

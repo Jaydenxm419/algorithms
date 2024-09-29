@@ -42,75 +42,89 @@ void linkedListTest(std::string items[])
     }
 }
 
-
 // Method to split strings
-vector<char> split(string str, char del) {
+vector<char> split(string str, char del)
+{
     vector<char> characters; // Characters in the string
-    string temp = ""; // Temporary string to filter out "delimeters" (new word for me)
+    string temp = "";        // Temporary string to filter out "delimeters" (new word for me)
 
-    for (int i = 0; i < (int)str.size(); i++) {
-        if (str[i] == ' ') {
+    for (int i = 0; i < (int)str.size(); i++)
+    {
+        if (str[i] == ' ')
+        {
             continue; // Skip spaces
         }
         // If the character is not the "delimeter", add it to the temp string
-        if (str[i] != del) {
+        if (str[i] != del)
+        {
             temp += str[i];
-        } else {
+        }
+        else
+        {
             // Add the characters to the characters vector
-            for (int j = 0; j < (int)temp.size(); j++) {
+            for (int j = 0; j < (int)temp.size(); j++)
+            {
                 characters.push_back(temp[j]);
             }
             temp = ""; // Reset the temporary string
         }
     }
-    
+
     // Loop just in case the string doesn't end in the delimeter
-    for (int j = 0; j < (int)temp.size(); j++) {
+    for (int j = 0; j < (int)temp.size(); j++)
+    {
         characters.push_back(temp[j]); // Add each character of the last word
     }
 
-    return characters; 
+    return characters;
 }
 
 // Method to search for palindromes in an array
-int searchForPalindromes(std::string* items, int size) {
+int searchForPalindromes(std::string *items, int size)
+{
     // Vector to store discovered palindromes
     std::vector<std::string> palindromes;
     // Loop through each word in the array
-    for (int i = 0; i < size; i++) {
-        Stack stack; // Define the stack for reverse string reading 
+    for (int i = 0; i < size; i++)
+    {
+        Stack stack; // Define the stack for reverse string reading
         Queue queue; // Define the queue for forward string reading
         bool isPalindrome = true;
-        char del = ' '; // Split on each character
+        char del = ' ';                                 // Split on each character
         vector<char> characters = split(items[i], del); // Call the split function
-        
+
         // Loop through the characters vector for adding characters
-        for (int j = 0; j < (int)characters.size(); j++) {
-            stack.push(std::string(1, characters[j])); // Push onto the stack
+        for (int j = 0; j < (int)characters.size(); j++)
+        {
+            stack.push(std::string(1, characters[j]));    // Push onto the stack
             queue.enqueue(std::string(1, characters[j])); // Enqueue onto the queue
         }
         // Loop through the characters vector for comparing characters
-        for (int k = 0; k < (int)characters.size(); k++) {
+        for (int k = 0; k < (int)characters.size(); k++)
+        {
             // Take out the next character from the queue
             std::string queueValue = queue.dequeue();
             // Take out the next character from the stack
             std::string stackValue = stack.pop();
             queueValue[0] = std::tolower(queueValue[0]);
             stackValue[0] = std::tolower(stackValue[0]);
-            if (queueValue != stackValue) {
+            if (queueValue != stackValue)
+            {
                 isPalindrome = false;
                 // std::cout << "Mismatch found. Exiting comparison." << std::endl; // Debug output
                 break;
-            } 
+            }
         }
         // If the word was a palindrome, add it to the vector
-        if (isPalindrome) {
+        if (isPalindrome)
+        {
             palindromes.push_back(items[i]);
         }
         cout << endl; // New line after each item
     }
     std::cout << "Palindromes found: " << std::endl;
-    for (int i = 0; i < (int)palindromes.size(); i++) {
+    for (int i = 0; i < (int)palindromes.size(); i++)
+    {
         std::cout << palindromes[i] << std::endl;
     }
     return 0;
@@ -118,7 +132,8 @@ int searchForPalindromes(std::string* items, int size) {
 // Method thats runs the program
 int main()
 {
-    using namespace std;
+    // Random number generator
+    std::srand(static_cast<unsigned int>(std::time(0)));
     // File of items to be read into array
     ifstream file("magicitems.txt");
     // Items in file
@@ -139,19 +154,28 @@ int main()
         }
         // Close the file to prevent errors
         file.close();
-        // Iterrate through the array and add the elements to the linked list
-        // linkedListTest(items);
-        // searchForPalindromes(items, 666);
-        Sorting sorting;
-        sorting.doSelectionSort(items, 666);
-        // Handle error if the file doesn't exist
+        // Linked List Test
+        linkedListTest(items);
+        // Return palindromes
+        searchForPalindromes(items, 666);
+
+        Sorting sorting; // Sorting object
+        // Shuffle magic items
+        std::string *shuffledItems = sorting.doKnuthShuffle(items, i); // Store the returned pointer
+        // Selection Sort
+        sorting.doSelectionSort(shuffledItems);
+        // Insertion Sort
+        sorting.doInsertionSort(shuffledItems);
+        // Merge Sort
+        sorting.doMergeSort(shuffledItems);
+        // Quick Sort
+        sorting.doQuickSort(shuffledItems);
     }
     else
     {
         cerr << "ERROR: File may be open or does not exist!" << endl;
         return 1;
     }
-    
+
     return 0;
 }
-
