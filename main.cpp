@@ -62,8 +62,7 @@ vector<char> split(string str, char del)
         else
         {
             // Add the characters to the characters vector
-            for (int j = 0; j < (int)temp.size(); j++)
-            {
+            for (int j = 0; j < (int)temp.size(); j++){
                 characters.push_back(temp[j]);
             }
             temp = ""; // Reset the temporary string
@@ -71,8 +70,7 @@ vector<char> split(string str, char del)
     }
 
     // Loop just in case the string doesn't end in the delimeter
-    for (int j = 0; j < (int)temp.size(); j++)
-    {
+    for (int j = 0; j < (int)temp.size(); j++){
         characters.push_back(temp[j]); // Add each character of the last word
     }
 
@@ -80,13 +78,11 @@ vector<char> split(string str, char del)
 }
 
 // Method to search for palindromes in an array
-int searchForPalindromes(std::string *items, int size)
-{
+int searchForPalindromes(std::string *items, int size) {
     // Vector to store discovered palindromes
     std::vector<std::string> palindromes;
     // Loop through each word in the array
-    for (int i = 0; i < size; i++)
-    {
+    for (int i = 0; i < size; i++) {
         Stack stack; // Define the stack for reverse string reading
         Queue queue; // Define the queue for forward string reading
         bool isPalindrome = true;
@@ -94,44 +90,78 @@ int searchForPalindromes(std::string *items, int size)
         vector<char> characters = split(items[i], del); // Call the split function
 
         // Loop through the characters vector for adding characters
-        for (int j = 0; j < (int)characters.size(); j++)
-        {
+        for (int j = 0; j < (int)characters.size(); j++) {
             stack.push(std::string(1, characters[j]));    // Push onto the stack
             queue.enqueue(std::string(1, characters[j])); // Enqueue onto the queue
         }
         // Loop through the characters vector for comparing characters
-        for (int k = 0; k < (int)characters.size(); k++)
-        {
+        for (int k = 0; k < (int)characters.size(); k++) {
             // Take out the next character from the queue
             std::string queueValue = queue.dequeue();
             // Take out the next character from the stack
             std::string stackValue = stack.pop();
             queueValue[0] = std::tolower(queueValue[0]);
             stackValue[0] = std::tolower(stackValue[0]);
-            if (queueValue != stackValue)
-            {
+            if (queueValue != stackValue) {
                 isPalindrome = false;
                 // std::cout << "Mismatch found. Exiting comparison." << std::endl; // Debug output
                 break;
             }
         }
         // If the word was a palindrome, add it to the vector
-        if (isPalindrome)
-        {
+        if (isPalindrome){
             palindromes.push_back(items[i]);
         }
         cout << endl; // New line after each item
     }
+
+    // Print palindromes
+    std::cout << "----------------------------------" << "\n";
     std::cout << "Palindromes found: " << std::endl;
+    std::cout << "----------------------------------" << "\n";
     for (int i = 0; i < (int)palindromes.size(); i++)
     {
         std::cout << palindromes[i] << std::endl;
     }
+    std::cout << "----------------------------------" << "\n";
+    std::cout << "There are " << (int)palindromes.size();
+    std::cout << " palindromes." << "\n";
+    std::cout << "----------------------------------" << "\n";
+    std::cout << "\n";
     return 0;
 }
-// Method thats runs the program
-int main()
-{
+
+// Method that makes all characters in each element lowercase
+void toLowercase(std::string *items, int size) {
+    for (int i = 0; i < size; ++i) {
+        std::transform(items[i].begin(), items[i].end(), items[i].begin(), ::tolower);
+    }
+}
+
+// Method to do different sorts
+void performSort(Sorting& sorting, std::string* items, int size, const std::string& sortType) {
+    std::string* shuffledItems = sorting.doKnuthShuffle(items, size); // Store the returned pointer
+    toLowercase(shuffledItems, size);  // Apply the lowercase transformation
+
+    if (sortType == "Selection") {
+        sorting.doSelectionSort(shuffledItems, size);
+    } else if (sortType == "Insertion") {
+        sorting.doInsertionSort(shuffledItems, size);
+    } else if (sortType == "Merge") {
+        sorting.doMergeSort(shuffledItems, size);
+    } else if (sortType == "Quick") {
+        sorting.doQuickSort(shuffledItems, 0, size);
+    }
+
+    std::cout << "----------------------------------" << "\n";
+    std::cout << sortType << " Sort\n";
+    std::cout << "Number of Comparisons: ";
+    std::cout << sorting.comparisonCounter << std::endl;
+    // No need to delete shuffledItems, it's not dynamically allocated
+    sorting.comparisonCounter = 0;
+}
+
+int main() {
     // Random number generator
     std::srand(static_cast<unsigned int>(std::time(0)));
     // File of items to be read into array
@@ -154,22 +184,20 @@ int main()
         }
         // Close the file to prevent errors
         file.close();
-        // Linked List Test
-        linkedListTest(items);
-        // Return palindromes
-        searchForPalindromes(items, 666);
 
-        Sorting sorting; // Sorting object
-        // Shuffle magic items
-        std::string *shuffledItems = sorting.doKnuthShuffle(items, i); // Store the returned pointer
-        // Selection Sort
-        sorting.doSelectionSort(shuffledItems);
-        // Insertion Sort
-        sorting.doInsertionSort(shuffledItems);
-        // Merge Sort
-        sorting.doMergeSort(shuffledItems);
-        // Quick Sort
-        sorting.doQuickSort(shuffledItems);
+        Sorting sorting;
+    
+        int index = 666;
+        // Call sorts
+        searchForPalindromes(items, index);
+        performSort(sorting, items, index, "Selection");
+        performSort(sorting, items, index, "Insertion");
+        performSort(sorting, items, index, "Merge");
+        performSort(sorting, items, index, "Quick");
+        std::cout << "----------------------------------" << "\n";
+
+
+    return 0;
     }
     else
     {
