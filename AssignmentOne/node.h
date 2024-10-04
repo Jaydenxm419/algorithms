@@ -14,13 +14,13 @@ public:
     // Constructor
     Node(const std::string &value);
 
-    // Function outline to set the next node
+    // Method outline to set the next node
     void setNext(Node *nextNode);
 
-    // Function outline to get the next node
+    // Method outline to get the next node
     Node *getNext() const;
 
-    // Function outline to get the node's data
+    // Method outline to get the node's data
     std::string getData() const;
 };
 
