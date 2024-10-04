@@ -17,7 +17,7 @@ void linkedListTest(std::string items[])
         // Declare the current node
         Node *node = new Node(items[i]);
 
-        // Ensure array overflow is resolved
+        // Prevent array overflow
         if (i < 665)
         {
             Node *nextNode = new Node(items[i + 1]);

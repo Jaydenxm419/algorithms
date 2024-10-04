@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Compile the C++ source file
-clang++ -std=c++11 -o main main.cpp
-
+g++ -g -O0 main.cpp AssignmentOne/Node.cpp AssignmentOne/Queue.cpp AssignmentOne/Stack.cpp AssignmentOne/Sorting.cpp -o program
 # Run the compiled executable
-./main
+./program
