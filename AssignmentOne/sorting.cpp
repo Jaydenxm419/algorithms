@@ -120,41 +120,39 @@ std::string* Sorting::doMerge(std::string *items, std::string *leftItems, std::s
     return items;  // Return the pointer to the merged array
 }
 
-// Method to set the partition index for Quick Sort
 int Sorting::setPartition(std::string *items, int start, int end) {
     std::string temp = "";  // Temp variable for swapping
-    std::string pivotValue = items[end - 1]; // Define pivot
-    int i = start - 1;  // Helper index starts as value before the first element
-    // Iterate through to the end of the array before the pivot
-    for (int j = start; j <= end - 1; j++) {
-        // If the value of the item is less than the pivot
+    std::string pivotValue = items[end];  // Pivot is the last element
+    int i = start - 1;  // Helper index starts before the first element
+
+    // Iterate through to the second last element
+    for (int j = start; j < end; j++) {
+        comparisonCounter++;
         if (items[j] <= pivotValue) {
-            comparisonCounter++;
-            i++; // Increment the helper index
-            // Swap the item at index j (current) with i (the helper value) 
-            temp = items[i]; 
+            i++;  // Increment helper index
+            // Swap items[i] and items[j]
+            temp = items[i];
             items[i] = items[j];
             items[j] = temp;
         }
     }
-    // Swap the pivot with the value of the helper index
+    // Place the pivot in its correct position
     temp = items[i + 1];
-    items[i + 1] = items[end - 1];
-    items[end - 1] = temp;
-    return i;
+    items[i + 1] = items[end];
+    items[end] = temp;
+    return i + 1;  // Return pivot position
 }
 
-// Quick Sort
-int Sorting::doQuickSort(std::string *items, int start, int end)
-{   
-    // If the start is not equal to the end
+int Sorting::doQuickSort(std::string *items, int start, int end) {
     if (start < end) {
-        int partition = setPartition(items, start, end); // Define the partition
-        doQuickSort(items, start, partition - 1); // Sort the left side of the array
-        doQuickSort(items, partition + 1, end); // Sort the right side the array
+        int partition = setPartition(items, start, end);  // Partition the array
+        doQuickSort(items, start, partition - 1);  // Recursively sort the left part
+        doQuickSort(items, partition + 1, end);  // Recursively sort the right part
     }
     return 0;
 }
+
+
 
 // Knuth Shuffle
 std::string *Sorting::doKnuthShuffle(std::string *items, int size) {
