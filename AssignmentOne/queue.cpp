@@ -12,22 +12,18 @@ Queue::Queue() : head(nullptr), tail(nullptr) {}
 void Queue::enqueue(std::string data)
 {
     Node *node = new Node(data); // Create a new node
-    if (tail != nullptr)
-    {
+    if (tail != nullptr) {
         tail->next = node; // Make the tail point at the next node
     }
     tail = node; // Make the new node the current tail
-    if (head == nullptr)
-    {
+    if (head == nullptr) {
         head = node; // Make the node the head if there isn't currently a head (empty queue)
     }
 }
 
 // Method to remove data from the head (front) of the queue 
-std::string Queue::dequeue()
-{
-    if (head == nullptr)
-    {
+std::string Queue::dequeue() {
+    if (head == nullptr) {
         throw std::out_of_range("Queue is empty");
     }
     std::string data = head->getData(); // Get the data of the head to be removed
@@ -40,8 +36,7 @@ std::string Queue::dequeue()
     return data;
 }
 
-bool Queue::isEmpty()
-{
+bool Queue::isEmpty() {
     if (head == nullptr)
     {
         return true;
