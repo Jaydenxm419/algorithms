@@ -280,7 +280,8 @@ int main() {
 
         // Do a search for each item in sortedItemsCopy
         Search search;
-        search.doLinearSearch(sortedItemsCopy, randomItems, size);
+        // search.doLinearSearch(sortedItemsCopy, randomItems, size);
+        search.doBinarySearch(sortedItemsCopy, randomItems, size);
 
     } else {
         cerr << "ERROR: File may be open or does not exist!" << endl;

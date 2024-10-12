@@ -7,7 +7,7 @@
 class Search {
     public:
     void doLinearSearch(std::string *items, Stack &stack, int size);
-    void doBinarySearch(std::string *items, Stack &stack, int size)
+    void doBinarySearch(std::string *items, Stack &stack, int size);
 };
 
 #endif
