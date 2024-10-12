@@ -10,7 +10,7 @@ public:
     Sorting(); 
     int doSelectionSort(std::string* items, int size);
     int doInsertionSort(std::string* items, int size);
-    int doMergeSort(std::string *items, int size);
+    std::string* doMergeSort(std::string *items, int size);
     std::string* doMerge(std::string *items, std::string *leftItems, std::string *rightItems, int leftSize, int rightSize);
     int setPartition(std::string* items, int itemFromLeft, int itemFromRight);
     int doQuickSort(std::string *items, int itemFromLeft, int itemFromRight);
