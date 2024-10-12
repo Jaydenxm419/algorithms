@@ -1,13 +1,16 @@
 // main.cpp
-#include <iostream>
 #include "AssignmentOne/node.h"
 #include "AssignmentOne/stack.h"
 #include "AssignmentOne/queue.h"
 #include "AssignmentOne/sorting.h"
+#include "AssignmentTwo/Search.h"
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iostream>
 using namespace std;
+
+
 
 // // Method to process items in the array and add them to the linked list
 // void linkedListTest(std::string items[])
@@ -214,20 +217,21 @@ void seedRandom() {
 }
 // Get the random number 
 int getRandomNumber(){
-    int random = rand() % 666;
-    return random;
+    return rand() % 666;
 }
 
 // Method to pick 42 random items from magic items file
-std::string* pickRandomItems(std::string *items, int size) {
+Stack pickRandomItems(std::string *items, int size) {
+    Stack stack;
     int numberOfItems = 0; // For limiting the number of selected items
     std::string temp = " "; // For swapping
-    std::string* randomItems = new std::string[42]; // Hold random selected items
+    // std::string* randomItems = new std::string[42]; // Hold random selected items
     
     // Select 42 random items
-    while (numberOfItems < 42 && size > 0) {  
+    while (numberOfItems < 42 && size > 0) {
         int randomNum = getRandomNumber() % size;  // Get random number
-        randomItems[numberOfItems] = items[randomNum]; // 
+        // randomItems[numberOfItems] = items[randomNum]; //
+        stack.push(items[randomNum]); 
         // Swap the item chosen with the last element of the array
         items[randomNum] = temp;
         items[randomNum] = items[size - 1];
@@ -237,53 +241,53 @@ std::string* pickRandomItems(std::string *items, int size) {
         // Increment the number of items selected by 1
         numberOfItems++;
     }
-    return randomItems;
+    return stack;
 }
 
 
 int main() {
-    // File of items to be read into array
-    ifstream file("magicitems.txt");
-    // Items in file
-    string item;
-    // Items array that holds magic items from text file
-    string items[666];
+    // Random number seeding
+    seedRandom(); 
 
-    // Check if the input file exists
-    if (file)
-    {
-        // Iterate each line of the text file into the items array
+    // File location
+    ifstream file("magicitems.txt");
+
+    // Magic Items Array
+    int size = 666; 
+    string item; 
+    string items[size]; 
+
+    // Read the file of magic items
+    if (file) {
         int i = 0;
-        while (getline(file, item)) {
-            items[i] = item;
-            i++;
+        while (getline(file, item) && i < size) {
+            items[i++] = item;
         }
-        // Close the file to prevent errors
         file.close();
 
+        // Sort the array of items with merge sort
         Sorting sorting;
-        int index = 666;
-        // Call sorts
-        std::string* sortedItems = sorting.doMergeSort(items, index);
+        std::string* sortedItems = sorting.doMergeSort(items, size);
 
-        for (i = 0; i < index; i++) {
-            std::cout << sortedItems[i] << "\n";
+        // Make a copy of sortedItems to prevent data loss
+        std::string sortedItemsCopy[size]; 
+        for (int i = 0; i < size; i++){
+            sortedItemsCopy[i] = sortedItems[i];
         }
-        std::cout << "----------------------------------" << "\n";
 
-        int randomNum = getRandomNumber();
-        std::string* randomItems = pickRandomItems(items, index);
-        for (i = 0; i < 42; i++) {
-            std::cout << randomItems[i] << "\n";
-        }
-    return 0;
-    }
-    else
-    {
+        // Get the array of 42 random items from sortedItems
+        Stack randomItems = pickRandomItems(sortedItems, size);
+
+        // Do a search for each item in sortedItemsCopy
+        Search search;
+        search.doLinearSearch(sortedItemsCopy, randomItems, size);
+
+    } else {
         cerr << "ERROR: File may be open or does not exist!" << endl;
         return 1;
     }
 
     return 0;
 }
+
 

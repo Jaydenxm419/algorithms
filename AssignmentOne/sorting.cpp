@@ -52,7 +52,7 @@ int Sorting::doInsertionSort(std::string *items, int size) {
 }
 
 // Merge Sort
-int Sorting::doMergeSort(std::string *items, int size) {
+std::string* Sorting::doMergeSort(std::string *items, int size) {
     // Return the base case
     if (size <= 1) {
         return 0;  
@@ -80,7 +80,7 @@ int Sorting::doMergeSort(std::string *items, int size) {
     delete[] leftItems;
     delete[] rightItems;
 
-    return 0;
+    return mergedItems;
 }
 
 // Method to merge many arrays for Merge Sort
