@@ -1,13 +1,17 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include <string>
+#include "node.h"
 
 class HashTable {
 private:
-    const int HASH_TABLE_SIZE;
+    int HASH_TABLE_SIZE;  // Member variable (dynamic, not const)
+    Node** buckets;
 public:
-    HashTable(); // Constructor
+    HashTable(int TABLE_SIZE);
     int makeHashCode(std::string str); // Declaration
+    void analyzeHashCode(int *hashValues);
+    void populateHashCode(std::string item);
 };
 // Initialize an array
 

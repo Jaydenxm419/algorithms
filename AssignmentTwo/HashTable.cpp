@@ -1,11 +1,18 @@
 #include "HashTable.h"
+#include "sorting.h"
+#include "node.h"
 #include <algorithm> 
 #include <cctype> 
 #include <iostream>
 #include <string>
 
 // Set hash table size
-HashTable::HashTable() : HASH_TABLE_SIZE(250) {}
+HashTable::HashTable(int TABLE_SIZE) : HASH_TABLE_SIZE(TABLE_SIZE) {
+    buckets = new Node*[HASH_TABLE_SIZE];  // Allocate an array of pointers to Node
+    for (int i = 0; i < HASH_TABLE_SIZE; ++i) {
+        buckets[i] = nullptr; // Initialize all pointers to nullptr
+    }
+}
 
 int HashTable::makeHashCode(std::string str) {
     transform(str.begin(), str.end(), str.begin(), ::toupper); // Make string uppercase
@@ -21,3 +28,57 @@ int HashTable::makeHashCode(std::string str) {
     int hashCode = (letterTotal * 1) % HASH_TABLE_SIZE;
     return hashCode;
 }
+
+// Check the number of occurrences of hash code
+void HashTable::analyzeHashCode(int *hashValues) {
+    int asteriskCount = 0;  
+    int *bucketCount = new int[HASH_TABLE_SIZE];
+    int totalCount = 0;
+    int arrayIndex = 0;
+
+    // Sort the array with std::sort
+    std::sort(hashValues, hashValues + 666);  // Sorts the first 666 elements of hashValues
+
+    // Output the sorted array
+    for (int i = 0; i < 250; i++) { 
+        asteriskCount = 0;
+        while ((arrayIndex < 666) && (hashValues[arrayIndex] == i)) {
+            std::cout << "*";
+            asteriskCount = asteriskCount + 1;
+            arrayIndex = arrayIndex + 1;
+        }
+        std::cout << "\n";
+        bucketCount[i] = asteriskCount;
+        std::cout << asteriskCount;
+        std::cout << "\n";
+        totalCount = totalCount + asteriskCount;
+    } 
+
+    std::cout << "Average Load (Count): ";
+    float averageLoad = (float) totalCount / HASH_TABLE_SIZE;
+    std::cout << averageLoad << "\n";
+
+    std::cout << "Average Load (Calc): ";
+    averageLoad = (float) 666 / HASH_TABLE_SIZE;
+    std::cout << averageLoad;
+}
+
+void HashTable::populateHashCode(std::string item) {
+    // Check to see if the index is empty
+    int hashCode = makeHashCode(item);
+    Node *node = new Node(item);
+    if (buckets[hashCode] == nullptr) {
+        buckets[hashCode] = node;
+    } else {
+        Node* current = buckets[hashCode];
+        while (current->getNext() != nullptr) {
+            current = current->getNext();
+            std::cout << current->getData() << "->";
+        }
+        current->setNext(node);
+        std::cout << "\n";
+    }
+}
+
+   
+
