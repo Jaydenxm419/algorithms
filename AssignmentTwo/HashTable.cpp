@@ -63,7 +63,7 @@ void HashTable::analyzeHashCode(int *hashValues) {
     std::cout << averageLoad;
 }
 
-void HashTable::populateHashCode(std::string item) {
+void HashTable::populateHashTable(std::string item) {
     // Check to see if the index is empty
     int hashCode = makeHashCode(item);
     Node *node = new Node(item);
@@ -71,14 +71,32 @@ void HashTable::populateHashCode(std::string item) {
         buckets[hashCode] = node;
     } else {
         Node* current = buckets[hashCode];
+        // Iterate through until the end of the list
         while (current->getNext() != nullptr) {
             current = current->getNext();
-            std::cout << current->getData() << "->";
         }
+        // Add the desired node to the end of the list
         current->setNext(node);
-        std::cout << "\n";
+        // std::cout << "\n";
     }
 }
+
+int HashTable::getValueFromHashTable(std::string item) {
+    int hashCode = makeHashCode(item); // Get the hash code value
+    int index = 0; // Initialize the index to 0 for iterating through the table
+    int comparisons = 1; // Initialize to 1 to represent the first get in the array
+    Node* current = buckets[hashCode];
+    while(current->getData() != item && current != nullptr) {
+        current = current->getNext();
+        comparisons = comparisons + 1;
+    }
+    if (current == nullptr) {
+        comparisons = -1;
+    }
+    return comparisons;
+}
+
+
 
    
 

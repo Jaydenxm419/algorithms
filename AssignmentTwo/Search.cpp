@@ -31,10 +31,10 @@ void Search::doLinearSearch(std::string *items, Stack &stack, int size) {
     }
     // Compute the average number of searches
     std::cout << "--------------------------------------" << "\n";
-     std::cout << "LINEAR SEARCH" << "\n" << "\n";
+    std::cout << "LINEAR SEARCH" << "\n" << "\n";
     averageComparisons = totalComparisons / 42.0; 
     std::cout << std::fixed << std::setprecision(2);  // Set precision to 2 decimal places
-    std::cout << "Average number of comparisons: " << averageComparisons << "\n";
+    std::cout << "Average Comparisons: " << averageComparisons << "\n";
     std::cout << "--------------------------------------" << "\n";
 }
 
@@ -61,7 +61,6 @@ void Search::doBinarySearch(std::string *items, Stack &stack, int size) {
             midpoint = startIndex + (endIndex - startIndex) / 2; // Calculate the new midpoint
             comparisonCount++; 
             if (item == items[midpoint]) { // Item was found
-                std::cout << "Item: " << item << " found at index: " << midpoint << "\n";
                 found = true;
             } else if (item < items[midpoint]) { // Focus on the left portion
                 endIndex = midpoint - 1;
@@ -71,9 +70,8 @@ void Search::doBinarySearch(std::string *items, Stack &stack, int size) {
         }
         totalComparisons += comparisonCount; // Update total comparisons
     }
-    std::cout << "--------------------------------------" << "\n";
-    std::cout << "Total Comparisons: " << totalComparisons << "\n";
-    std::cout << "--------------------------------------" << "\n";
+
+    std::cout << "BINARY SEARCH" << "\n" << "\n";
     averageComparisons = totalComparisons / 42;
     std::cout << std::fixed << std::setprecision(2);  // Set precision to 2 decimal places
     std::cout << "Average Comparisons: " << averageComparisons << "\n";

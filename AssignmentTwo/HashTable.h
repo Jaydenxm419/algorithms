@@ -11,7 +11,8 @@ public:
     HashTable(int TABLE_SIZE);
     int makeHashCode(std::string str); // Declaration
     void analyzeHashCode(int *hashValues);
-    void populateHashCode(std::string item);
+    void populateHashTable(std::string item);
+    int getValueFromHashTable(std::string item);
 };
 // Initialize an array
 
