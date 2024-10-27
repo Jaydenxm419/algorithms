@@ -14,6 +14,7 @@ HashTable::HashTable(int TABLE_SIZE) : HASH_TABLE_SIZE(TABLE_SIZE) {
     }
 }
 
+// Get the index in HashTable for a string
 int HashTable::makeHashCode(std::string str) {
     transform(str.begin(), str.end(), str.begin(), ::toupper); // Make string uppercase
     int length = str.length();
@@ -83,7 +84,6 @@ void HashTable::populateHashTable(std::string item) {
 
 int HashTable::getValueFromHashTable(std::string item) {
     int hashCode = makeHashCode(item); // Get the hash code value
-    int index = 0; // Initialize the index to 0 for iterating through the table
     int comparisons = 1; // Initialize to 1 to represent the first get in the array
     Node* current = buckets[hashCode];
     while(current->getData() != item && current != nullptr) {
