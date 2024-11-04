@@ -14,10 +14,9 @@
 using namespace std;
 
 int main() {
-    BinarySearchTree* BST = new BinarySearchTree;
-    Node* myNode = new Node("Hello");
-    std::string value = BST->insertNode(myNode);
-    std::cout << value;
+    BinarySearchTree *BST = new BinarySearchTree();
+    BST->setRoot("test");
+    std::cout << BST->getRoot()->getData();
     return 0;
 }
 

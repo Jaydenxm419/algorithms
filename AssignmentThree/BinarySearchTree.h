@@ -1,18 +1,10 @@
-#include "node.h"
+#include "BinarySearchTreeNode.h"
 
 class BinarySearchTree {
     private:
-        Node* root;
-        Node* right;
-        Node* left;
+        BSTNode* root;
     public:
         BinarySearchTree();
-        void setLeft(Node *newNode);
-        void setRight(Node *newNode);
-        Node *getLeft();
-        Node *getRight();
-        std::string insertNode(Node *newNode);
-        std::string helpInsertNode(Node *newNode, Node *root);
-        std::string findNode(Node *node);
-        std::string helpFindNode(Node *newNode, Node *root);
+        void setRoot(const std::string& rt);
+        BSTNode *getRoot();
 };
