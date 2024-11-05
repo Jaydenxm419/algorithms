@@ -24,6 +24,19 @@ std::string BinarySearchTree::insertNode(BSTNode *newNode) {
 }
 
 std::string BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
+    bool arrivedAtLeaf = false; // Default to not at the end of the tree
+    while (!arrivedAtLeaf) {
+        if (this->getRoot() == nullptr) {
+            this->setRoot(newNode);
+            arrivedAtLeaf = true;
+        }
+        if (newNode->getData() >= root->getData()) {
+
+        } else {
+            
+        }
+
+    }
     return newNode->getData();
 }
 
