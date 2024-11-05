@@ -19,6 +19,14 @@ BSTNode* BinarySearchTree::getRoot() {
     return root;
 }
 
+std::string BinarySearchTree::insertNode(BSTNode *newNode) {
+    return helpInsertNode(newNode, this->getRoot());
+}
+
+std::string BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
+    return newNode->getData();
+}
+
 
 
 
