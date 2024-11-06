@@ -14,31 +14,47 @@ void BinarySearchTree::setRoot(const std::string& rt) {
     }
 }
 
-// Get the root
+// Get the root of the tree
 BSTNode* BinarySearchTree::getRoot() {
     return root;
 }
 
-std::string BinarySearchTree::insertNode(BSTNode *newNode) {
-    return helpInsertNode(newNode, this->getRoot());
-}
-
-std::string BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
-    bool arrivedAtLeaf = false; // Default to not at the end of the tree
-    while (!arrivedAtLeaf) {
-        if (this->getRoot() == nullptr) {
-            this->setRoot(newNode);
-            arrivedAtLeaf = true;
-        }
-        if (newNode->getData() >= root->getData()) {
-
-        } else {
-            
-        }
-
+// Insert a node in the tree
+BSTNode* BinarySearchTree::insertNode(BSTNode *newNode) {
+    BSTNode* value;
+    // Set the root if its a new tree
+    if (this->getRoot() == nullptr) {
+        this->setRoot(newNode->getData());
+        value = this->getRoot();
+    } else {
+        value = helpInsertNode(newNode, this->getRoot());
     }
-    return newNode->getData();
+    return value;
 }
+
+// Helper method for insertNode
+BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
+    // For traversing
+    BSTNode* current = root; 
+    BSTNode* parent = nullptr;
+    // Traverse to the leaf nodes 
+    while(current != nullptr) {
+        parent = current; // Make the current the new parent
+        if (newNode->getData() >= current->getData()) {
+            current = current->getRight();
+        } else  {
+            current = current->getLeft();
+        }
+    }
+    // Insert the new node
+    if (newNode->getData() >= parent->getData()) {
+        parent->setRight(newNode);
+    } else {
+        parent->setLeft(newNode);
+    }
+    return newNode;
+}
+
 
 
 

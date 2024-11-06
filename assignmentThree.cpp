@@ -15,8 +15,31 @@ using namespace std;
 
 int main() {
     BinarySearchTree *BST = new BinarySearchTree();
-    BST->setRoot("test");
-    std::cout << BST->getRoot()->getData();
+    BSTNode *newNode = new BSTNode("5");  // Root node
+    BSTNode *newNode1 = new BSTNode("7");
+    BSTNode *newNode2 = new BSTNode("3");
+    BSTNode *newNode3 = new BSTNode("1");
+
+    // Insert nodes into the tree
+    BST->insertNode(newNode);  // Sets the root
+    BST->insertNode(newNode1);
+    BST->insertNode(newNode2);
+    BST->insertNode(newNode3);
+
+    // Access the left child of the root via the BinarySearchTree root pointer
+    if (BST->getRoot()->getLeft() != nullptr) {
+        std::cout << "Left of root: " << BST->getRoot()->getLeft()->getData() << "\n";
+    } else {
+        std::cout << "Root has no left child.\n";
+    }
+
+    // Similarly, you can access the right child if needed
+    if (BST->getRoot()->getRight() != nullptr) {
+        std::cout << "Right of root: " << BST->getRoot()->getRight()->getData() << "\n";
+    } else {
+        std::cout << "Root has no right child.\n";
+    }
+
     return 0;
 }
 
