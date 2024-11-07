@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # Compile the C++ source file for assignment 2
-g++ -g -O0 -I./AssignmentOne assignmentTwo.cpp AssignmentOne/Node.cpp AssignmentOne/Queue.cpp AssignmentOne/Stack.cpp AssignmentOne/Sorting.cpp AssignmentTwo/Search.cpp AssignmentTwo/HashTable.cpp -o program
+g++ -g -O0 -I./AssignmentOne assignmentThree.cpp AssignmentOne/Node.cpp AssignmentOne/Queue.cpp AssignmentOne/Stack.cpp AssignmentOne/Sorting.cpp AssignmentTwo/Search.cpp AssignmentTwo/HashTable.cpp AssignmentThree/BinarySearchTree.cpp AssignmentThree/BinarySearchTreeNode.cpp -o program 
 # Run the compiled executable
 ./program

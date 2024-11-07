@@ -9,4 +9,5 @@ class BinarySearchTree {
         BSTNode *insertNode(BSTNode *newNode);
         BSTNode *helpInsertNode(BSTNode *newNode, BSTNode *root);
         BSTNode *getRoot();
+        BSTNode *getNode(const std::string& value);
 };

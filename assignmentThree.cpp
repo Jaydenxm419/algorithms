@@ -26,19 +26,7 @@ int main() {
     BST->insertNode(newNode2);
     BST->insertNode(newNode3);
 
-    // Access the left child of the root via the BinarySearchTree root pointer
-    if (BST->getRoot()->getLeft() != nullptr) {
-        std::cout << "Left of root: " << BST->getRoot()->getLeft()->getData() << "\n";
-    } else {
-        std::cout << "Root has no left child.\n";
-    }
-
-    // Similarly, you can access the right child if needed
-    if (BST->getRoot()->getRight() != nullptr) {
-        std::cout << "Right of root: " << BST->getRoot()->getRight()->getData() << "\n";
-    } else {
-        std::cout << "Root has no right child.\n";
-    }
+    std::cout << BST->getNode("7")->getData();
 
     return 0;
 }

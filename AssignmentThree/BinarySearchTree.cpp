@@ -55,6 +55,23 @@ BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
     return newNode;
 }
 
+BSTNode* BinarySearchTree::getNode(const std::string& value) {
+    BSTNode* current = this->getRoot();
+    BSTNode* result = nullptr;  
+    while (current != nullptr) {
+        if (current->getData() == value) {
+            result = current;
+            break;
+        } else if (value < current->getData()) {
+            current = current->getLeft();
+        } else {
+            current = current->getRight();
+        }
+    }
+    return result;  
+}
+
+
 
 
 
