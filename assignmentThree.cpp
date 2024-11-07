@@ -13,22 +13,44 @@
 #include <iomanip>
 using namespace std;
 
-int main() {
+void runBinarySearchTreeTest() {
+
+    // File of items to be read into array
+    ifstream file("magicitems.txt");
+    // Items in file
+    string item;
+    // Items array that holds magic items from text file
+    string items[666];
+    // Check if the input file exists
+    if (file)
+    {
+        // Iterate each line of the text file into the items array
+        int i = 0;
+        while (getline(file, item))
+        {
+            items[i] = item;
+            i++;
+        }
+        // Close the file to prevent errors
+        file.close();
+    }
+    // Make nodes
     BinarySearchTree *BST = new BinarySearchTree();
-    BSTNode *newNode = new BSTNode("5");  // Root node
-    BSTNode *newNode1 = new BSTNode("7");
-    BSTNode *newNode2 = new BSTNode("3");
-    BSTNode *newNode3 = new BSTNode("1");
+    for (int i = 0; i < 666; i++) {
+         BSTNode *newNode = new BSTNode(items[i]);  
+         BST->insertNode(newNode);  
+    }
+    std::cout << BST->getNode("Book of Stealth")->getData();
+}
 
-    // Insert nodes into the tree
-    BST->insertNode(newNode);  // Sets the root
-    BST->insertNode(newNode1);
-    BST->insertNode(newNode2);
-    BST->insertNode(newNode3);
-
-    std::cout << BST->getNode("7")->getData();
+int main() {
+    
+    // Test for binary search tree
+    runBinarySearchTreeTest();
 
     return 0;
 }
+
+
 
 

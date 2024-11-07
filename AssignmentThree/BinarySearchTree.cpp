@@ -3,6 +3,7 @@
 #include "BinarySearchTreeNode.h"
 #include <iostream>
 #include <string>
+using namespace std;
 
 // Create a tree, initialize the root pointer
 BinarySearchTree::BinarySearchTree() : root(nullptr) {}
@@ -58,16 +59,24 @@ BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
 BSTNode* BinarySearchTree::getNode(const std::string& value) {
     BSTNode* current = this->getRoot();
     BSTNode* result = nullptr;  
+    vector<std::string> path;
     while (current != nullptr) {
         if (current->getData() == value) {
             result = current;
             break;
         } else if (value < current->getData()) {
             current = current->getLeft();
+            path.push_back("L");
         } else {
             current = current->getRight();
+            path.push_back("R");
         }
     }
+    std::cout << "Path: ";
+    for (int i = 0; i < path.size(); i++) {
+        std::cout << path[i] << " ";
+    }
+    std::cout << "\n" << "Value: ";
     return result;  
 }
 
