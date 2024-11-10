@@ -1,0 +1,12 @@
+#include "GraphNode.h"
+#include <vector>
+#include <string>
+class Graph {
+    private:
+        std::vector<GraphNode*> vertices;
+    public:
+    Graph();
+    const std::vector<GraphNode*>& getVertices();
+    void addVertex(std::string id);
+    void addEdge(GraphNode* firstNode, GraphNode* secondNode);
+};

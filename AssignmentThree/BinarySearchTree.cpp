@@ -16,7 +16,7 @@ void BinarySearchTree::setRoot(const std::string& rt) {
 }
 
 // Get the root of the tree
-BSTNode* BinarySearchTree::getRoot() {
+BSTNode* BinarySearchTree::getRoot() const {
     return root;
 }
 
@@ -38,15 +38,24 @@ BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
     // For traversing
     BSTNode* current = root; 
     BSTNode* parent = nullptr;
+    vector<std::string> path;
     // Traverse to the leaf nodes 
     while(current != nullptr) {
         parent = current; // Make the current the new parent
         if (newNode->getData() >= current->getData()) {
             current = current->getRight();
+            path.push_back("R");
         } else  {
             current = current->getLeft();
+            path.push_back("L");
         }
     }
+    // Print the path
+    std::cout << "Path for: " << newNode->getData() << ": ";
+    for (int i = 0; i < path.size(); i++) {
+        std::cout << path[i] << " ";
+    }
+    std::cout << "\n";
     // Insert the new node
     if (newNode->getData() >= parent->getData()) {
         parent->setRight(newNode);
@@ -54,6 +63,19 @@ BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
         parent->setLeft(newNode);
     }
     return newNode;
+}
+
+void BinarySearchTree::doinOrderTraversal() const {
+    helpInOrderTraversal(this->getRoot());
+}
+
+void BinarySearchTree::helpInOrderTraversal(BSTNode* node) const {
+    if (node == nullptr) {
+        return; 
+    }
+    helpInOrderTraversal(node->getLeft());
+    std::cout << node->getData() << "\n";
+    helpInOrderTraversal(node->getRight());
 }
 
 BSTNode* BinarySearchTree::getNode(const std::string& value) {
@@ -72,20 +94,9 @@ BSTNode* BinarySearchTree::getNode(const std::string& value) {
             path.push_back("R");
         }
     }
-    std::cout << "Path: ";
+    std::cout << value << ": ";
     for (int i = 0; i < path.size(); i++) {
         std::cout << path[i] << " ";
     }
-    std::cout << "\n" << "Value: ";
     return result;  
 }
-
-
-
-
-
-
-
-
-
-
