@@ -17,5 +17,5 @@ void Graph::addVertex(std::string id) {
 
 // Add an edge to a vertex
 void Graph::addEdge(GraphNode* firstNode, GraphNode* secondNode) {
-
+    
 }

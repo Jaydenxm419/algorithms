@@ -83,6 +83,11 @@ void runGraphTest() {
     for (int i = 0; i < vertices.size(); i++) {
         std::cout << "ID Retrieved: " << vertices[i]->getNodeId() << "\n";
     }
+    vertices[0]->addNeighbor(vertices[1]);
+    const std::vector<GraphNode*> nodeOneNeighbors = vertices[0]->getNeighbors();
+    for (int i = 0; i < neighbors.size(); i++) {
+        std::cout << "Neighbor ID Retrieved: " << nodeOneNeighbors[i]->getNodeId() << "\n";
+    }
 }
 
 int main() {
