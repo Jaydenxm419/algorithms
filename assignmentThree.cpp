@@ -12,6 +12,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 using namespace std;
 
 void runBinarySearchTreeTest() {
@@ -90,20 +91,75 @@ void runGraphTest() {
     }
 }
 
+// Parse the components of a command
+std::vector<std::string> parseCommand(const std::string& command) {
+    std::vector<std::string> tokens;
+    std::istringstream stream(command);
+    std::string word;
+    // Separate the components into a vector
+    while (stream >> word) {
+        tokens.push_back(word);  
+    }
+    // Return the vector of subcommands
+    return tokens;
+}
+
 // Read graph file instructions
 void readGraphFile() {
+    // File of commands
     ifstream file("graph.txt");
+    // Hold the command at a given line
     std::string command;
+    // Define a generic graph
+    Graph* graph = nullptr;  
+    // Define a vector to contain the graphs for output
+    std::vector<Graph*> graphs;;
+    // Open the file for reading
     if (file)
     {
         int i = 0;
         while (getline(file, command))
         {
             if (command == "new graph") {
-                std::cout << command << "\n"; 
+                graph = new Graph();
+                graphs.push_back(graph);
             } 
+            std::string addVertexStr = "add vertex";
+            if (command.find(addVertexStr) != std::string::npos) {
+                std::vector<std::string> tokens = parseCommand(command);
+                graph->addVertex(tokens[2]);
+            }
+            std::string addEdgeString = "add edge";
+            if (command.find(addEdgeString) != std::string::npos) {
+                // Get the all of the vertex pointers in the graph
+                std::vector<GraphNode*> vertices = graph->getVertices();
+                // Get the current subcommands from the current line
+                std::vector<std::string> tokens = parseCommand(command);
+                // Define the vertices that will be connected
+                GraphNode* firstVertex = vertices[std::stoi(tokens[2]) - 1];
+                GraphNode* secondVertex = vertices[std::stoi(tokens[4]) - 1];
+                // Add an edge to the pair of vertices
+                graph->addEdge(firstVertex, secondVertex);
+            }
         }
         file.close();
+
+        // Print the Adjacency List
+        for (int i = 0; i < graphs.size(); i++) {
+            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
+            std::cout << "--------------------" << "\n";
+            std::cout << "ADJACENCY LIST" << "\n";
+            std::cout << "--------------------" << "\n";
+            for (int j = 0; j < vertices.size(); j++) {
+                GraphNode* vertex = vertices[j];
+                std::vector<GraphNode*> neighbors = vertex->getNeighbors();
+                std::cout << "[" << vertex->getNodeId() << "] ";
+                for (int k = 0; k < neighbors.size(); k++) {
+                    std::cout << " " << neighbors[k]->getNodeId();
+                }
+                std::cout << "\n";
+            }
+         }
     }
 }
 

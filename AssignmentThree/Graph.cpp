@@ -12,10 +12,10 @@ const std::vector<GraphNode*>& Graph::getVertices() {
 void Graph::addVertex(std::string id) {
     GraphNode *node = new GraphNode(id);
     vertices.push_back(node);
-    std::cout << "Node Added: " << id << "\n";
 }
 
 // Add an edge to a vertex
 void Graph::addEdge(GraphNode* firstNode, GraphNode* secondNode) {
-    
+    firstNode->addNeighbor(secondNode);
+    secondNode->addNeighbor(firstNode);
 }

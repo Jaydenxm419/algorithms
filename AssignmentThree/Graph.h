@@ -4,6 +4,7 @@
 class Graph {
     private:
         std::vector<GraphNode*> vertices;
+        // Maybe add an name to the graph?
     public:
     Graph();
     const std::vector<GraphNode*>& getVertices();
