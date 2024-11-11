@@ -85,8 +85,25 @@ void runGraphTest() {
     }
     vertices[0]->addNeighbor(vertices[1]);
     const std::vector<GraphNode*> nodeOneNeighbors = vertices[0]->getNeighbors();
-    for (int i = 0; i < neighbors.size(); i++) {
+    for (int i = 0; i < nodeOneNeighbors.size(); i++) {
         std::cout << "Neighbor ID Retrieved: " << nodeOneNeighbors[i]->getNodeId() << "\n";
+    }
+}
+
+// Read graph file instructions
+void readGraphFile() {
+    ifstream file("graph.txt");
+    std::string command;
+    if (file)
+    {
+        int i = 0;
+        while (getline(file, command))
+        {
+            if (command == "new graph") {
+                std::cout << command << "\n"; 
+            } 
+        }
+        file.close();
     }
 }
 
@@ -94,7 +111,8 @@ int main() {
     
     // Test for binary search tree
     // runBinarySearchTreeTest();
-    runGraphTest();
+    // runGraphTest();
+    readGraphFile();
 
     return 0;
 }
