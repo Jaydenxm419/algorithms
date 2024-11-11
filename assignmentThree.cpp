@@ -136,8 +136,19 @@ void readGraphFile() {
                 // Get the current subcommands from the current line
                 std::vector<std::string> tokens = parseCommand(command);
                 // Define the vertices that will be connected
-                GraphNode* firstVertex = vertices[std::stoi(tokens[2]) - 1];
-                GraphNode* secondVertex = vertices[std::stoi(tokens[4]) - 1];
+                std::string firstVertexId = tokens[2];
+                std::string secondVertexId = tokens[4];
+                // Search for the vertex object in vertices vector
+                GraphNode* firstVertex = nullptr;
+                GraphNode* secondVertex = nullptr;
+                // Search for the vertex id's in the vertices vector
+                for (int i = 0; i < vertices.size(); i++) {
+                    if (vertices[i]->getNodeId() == firstVertexId) {
+                        firstVertex = vertices[i];
+                    } else if(vertices[i]->getNodeId() == secondVertexId) {
+                        secondVertex = vertices[i];
+                    }
+                }
                 // Add an edge to the pair of vertices
                 graph->addEdge(firstVertex, secondVertex);
             }
