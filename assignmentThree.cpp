@@ -112,6 +112,25 @@ std::vector<std::string> parseCommand(const std::string &command)
     return tokens;
 }
 
+// Do depth first traveral
+void depthFirstTraversal(GraphNode* start) {
+    // Process node if not processed
+    if(!start->getStatus()) {
+        std::cout << start->getNodeId() << "\n";
+        start->setStatus(true);
+    }
+    // Check status of neighbors
+    std::vector<GraphNode*> neighbors = start->getNeighbors();
+    int numOfNeighbors = neighbors.size();
+    // Iterate through the neighbors of the current vertex
+    for (int i = 0; i < numOfNeighbors; i++) {
+        // Recurse if a neighbor is not processed
+        if (!neighbors[i]->getStatus()) {
+            depthFirstTraversal(neighbors[i]);
+        }
+    }
+}
+
 // Read graph file instructions
 void readGraphFile()
 {
@@ -191,75 +210,80 @@ void readGraphFile()
         //     }
         // }
 
-        for (int i = 0; i < graphs.size(); i++) {
-            std::vector<GraphNode *> vertices = graphs[i]->getVertices();
-            // Initialize the matrix with the correct dimensions and a default value
-            std::vector<std::vector<std::string> > matrix(vertices.size(), std::vector<std::string>(vertices.size(), "*"));
-            // Populate the matrix
-            for (int i = 0; i < vertices.size(); i++) {
-                for (int j = 0; j < vertices.size(); j++) {
-                    matrix[i][j] = "*"; // Fill each cell as desired
-                }
-            }
+        // Print Matrix
+        // for (int i = 0; i < graphs.size(); i++) {
+        //     std::vector<GraphNode *> vertices = graphs[i]->getVertices();
+        //     // Initialize the matrix with the correct dimensions and a default value
+        //     std::vector<std::vector<std::string> > matrix(vertices.size(), std::vector<std::string>(vertices.size(), "*"));
+        //     // Populate the matrix
+        //     for (int i = 0; i < vertices.size(); i++) {
+        //         for (int j = 0; j < vertices.size(); j++) {
+        //             matrix[i][j] = "*"; // Fill each cell as desired
+        //         }
+        //     }
 
-            // Print the matrix contents
-            std::cout << "  ";
-            bool zeroFlag = false;
-            for (int i = 0; i < vertices.size(); i++) {
-                std::cout << vertices[i]->getNodeId() << " ";
-                if (vertices[i]->getNodeId() == "0") {
-                    zeroFlag = true;
-                }
-            }
-            std::cout << "\n";
-            for (int i = 0; i < matrix.size(); i++) {
-                std::cout << vertices[i]->getNodeId() << " ";
-                for (int j = 0; j < matrix[i].size(); j++) {
-                    std::cout << matrix[i][j] << " ";
-                }
-                std::cout << std::endl;
-            }
+        //     // Print the matrix contents
+        //     std::cout << "  ";
+        //     bool zeroFlag = false;
+        //     for (int i = 0; i < vertices.size(); i++) {
+        //         std::cout << vertices[i]->getNodeId() << " ";
+        //         if (vertices[i]->getNodeId() == "0") {
+        //             zeroFlag = true;
+        //         }
+        //     }
+        //     std::cout << "\n";
+        //     for (int i = 0; i < matrix.size(); i++) {
+        //         std::cout << vertices[i]->getNodeId() << " ";
+        //         for (int j = 0; j < matrix[i].size(); j++) {
+        //             std::cout << matrix[i][j] << " ";
+        //         }
+        //         std::cout << std::endl;
+        //     }
 
-            // Iterate through the vertices
-            for (int i = 0; i < vertices.size(); i++) {
-                // Get the neighbors of the current vertex
-                std::vector<GraphNode*> neighbors = vertices[i]->getNeighbors();
-                // Iterate through the neighbors
-                if (zeroFlag) {
-                    for (int j = 0; j < neighbors.size(); j++) {
-                        matrix[std::stoi(vertices[i]->getNodeId())][std::stoi(neighbors[j]->getNodeId())] = "1";
-                    }
-                } else {
-                    for (int j = 0; j < neighbors.size(); j++) {
-                        matrix[std::stoi(vertices[i]->getNodeId()) - 1][std::stoi(neighbors[j]->getNodeId()) - 1] = "1";
-                }
-                }
-            }
+        //     // Iterate through the vertices
+        //     for (int i = 0; i < vertices.size(); i++) {
+        //         // Get the neighbors of the current vertex
+        //         std::vector<GraphNode*> neighbors = vertices[i]->getNeighbors();
+        //         // Iterate through the neighbors
+        //         if (zeroFlag) {
+        //             for (int j = 0; j < neighbors.size(); j++) {
+        //                 matrix[std::stoi(vertices[i]->getNodeId())][std::stoi(neighbors[j]->getNodeId())] = "1";
+        //             }
+        //         } else {
+        //             for (int j = 0; j < neighbors.size(); j++) {
+        //                 matrix[std::stoi(vertices[i]->getNodeId()) - 1][std::stoi(neighbors[j]->getNodeId()) - 1] = "1";
+        //         }
+        //         }
+        //     }
         
-            // Print
-            std::cout << "  ";
-            for (int i = 0; i < vertices.size(); i++) {
-                std::cout << vertices[i]->getNodeId() << " ";
-            }
-            std::cout << "\n";
-            for (int i = 0; i < matrix.size(); i++) {
-                std::cout << vertices[i]->getNodeId() << " ";
-                for (int j = 0; j < matrix[i].size(); j++) {
-                    std::cout << matrix[i][j] << " ";
-                }
-                std::cout << std::endl;
-            }
-
-
-        }
-
-        // for (int j = 0; j < vertices.size(); j++) {
-        //     horizontalAxis.push_back(vertices[i]->getNodeId());
-
+        //     // Print
+        //     std::cout << "  ";
+        //     for (int i = 0; i < vertices.size(); i++) {
+        //         std::cout << vertices[i]->getNodeId() << " ";
+        //     }
+        //     std::cout << "\n";
+        //     for (int i = 0; i < matrix.size(); i++) {
+        //         std::cout << vertices[i]->getNodeId() << " ";
+        //         for (int j = 0; j < matrix[i].size(); j++) {
+        //             std::cout << matrix[i][j] << " ";
+        //         }
+        //         std::cout << std::endl;
+        //     }
         // }
+
+        // Depth First Traversal
+        std::vector<GraphNode*> firstVertices; 
+        // Add the first vertex of each graph to a vector
+        for (int i = 0; i < graphs.size(); i++) {
+            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
+            firstVertices.push_back(vertices[0]);
+        }
+        // Traverse each graph starting from the first vertex
+        for (int i = 0; i < firstVertices.size(); i++) {
+            depthFirstTraversal(firstVertices[i]);
+        }
     }
 }
-
 
 int main()
 {
