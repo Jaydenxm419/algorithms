@@ -72,6 +72,7 @@ void runBinarySearchTreeTest()
     std::cout << "--------------------" << "\n";
     std::cout << "RETRIEVING 42 ITEMS" << "\n";
     std::cout << "--------------------" << "\n";
+    // ADD COMPARISON COUNTER
     for (int i = 0; i < 42; i++)
     {
         BST->getNode(bstItems[i])->getData();
@@ -273,25 +274,29 @@ void readGraphFile()
         }
 
         // Depth First Traversal
-        std::vector<GraphNode*> firstVertices; 
-        // Add the first vertex of each graph to a vector
-        for (int i = 0; i < graphs.size(); i++) {
-            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
-            firstVertices.push_back(vertices[0]);
-        }
-        // Traverse each graph starting from the first vertex
         std::cout << std::endl;
         std::cout << "*********************" << std::endl;
         std::cout << "DEPTH FIRST TRAVERSALS" << std::endl;
         std::cout << "*********************" << std::endl;
         graphNum = 1;
-        for (int i = 0; i < firstVertices.size(); i++) {
+        // Iterate through all graph objects
+        for (int i = 0; i < graphs.size(); i++) {
             std::cout << "-------------------" << std::endl;
             std::cout << "Vertices in Graph: " << graphNum;
             std::cout << std::endl;
+            // Retrieve the vertices in the graph
+            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
+            // Do a depth first traversal starting at the first vertex
+            depthFirstTraversal(vertices[0]);
+            // Iterate through the vertices to find island vertices
+            for (int j = 0; j < vertices.size(); j++) {
+                // If a vertex has no neighbors
+                if(vertices[j]->getNeighbors().empty()) {
+                    // Traverse starting at the island vertex
+                    depthFirstTraversal(vertices[j]);
+                }
+            }
             graphNum = graphNum + 1;
-            depthFirstTraversal(firstVertices[i]);
-            std::cout << std::endl;
         }
     }
 }
@@ -307,14 +312,3 @@ int main()
     return 0;
 }
 
-// std::cout << "--------------------" << "\n";
-//             std::cout << "MATRIX LIST" << "\n";
-//             std::cout << "--------------------" << "\n";
-//             for (int j = 0; j < vertices.size(); j++) {
-//                 GraphNode* vertex = vertices[j];
-//                 std::vector<GraphNode*> neighbors = vertex->getNeighbors();
-//                 std::cout << "[" << vertex->getNodeId() << "] ";
-//                 for (int k = 0; k < neighbors.size(); k++) {
-//                     std::cout << " " << neighbors[k]->getNodeId();
-//                 }
-//                 std::cout << "\n";
