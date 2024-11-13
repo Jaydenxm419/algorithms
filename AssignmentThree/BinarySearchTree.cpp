@@ -6,8 +6,11 @@
 using namespace std;
 
 // Create a tree, initialize the root pointer
-BinarySearchTree::BinarySearchTree() : root(nullptr) {}
+BinarySearchTree::BinarySearchTree() : root(nullptr), totalComparisons() {}
 
+const int BinarySearchTree::getTotalComparisons() const {
+    return this->totalComparisons;
+}
 // Set the root of the tree
 void BinarySearchTree::setRoot(const std::string& rt) {
     if (root == nullptr) {
@@ -94,9 +97,11 @@ BSTNode* BinarySearchTree::getNode(const std::string& value) {
             path.push_back("R");
         }
     }
-    std::cout << value << ": ";
+    std::cout << value << ": " << "\n";
     for (int i = 0; i < path.size(); i++) {
         std::cout << path[i] << " ";
     }
+    std::cout << "\n" << "Comparisons: " << path.size() << "\n";
+    this->totalComparisons = this->totalComparisons + path.size();
     return result;  
 }

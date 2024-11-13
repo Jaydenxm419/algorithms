@@ -13,6 +13,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <queue>
 using namespace std;
 
 void runBinarySearchTreeTest()
@@ -72,16 +73,18 @@ void runBinarySearchTreeTest()
     std::cout << "--------------------" << "\n";
     std::cout << "RETRIEVING 42 ITEMS" << "\n";
     std::cout << "--------------------" << "\n";
-    // ADD COMPARISON COUNTER
     for (int i = 0; i < 42; i++)
     {
         BST->getNode(bstItems[i])->getData();
         std::cout << "\n";
     }
+    int totalComparisons = BST->getTotalComparisons();
+    std::cout << "Total Comparisons: " << totalComparisons << std::endl;
+    int averageComparisons = totalComparisons / 42;
+    std::cout << "Average Comparisons: " << averageComparisons << std::endl;
 }
 
-void runGraphTest()
-{
+void runGraphTest() {
     Graph *graph = new Graph();
     graph->addVertex("1");
     graph->addVertex("2");
@@ -129,6 +132,24 @@ void depthFirstTraversal(GraphNode* start) {
         if (!neighbors[i]->getStatus()) {
             depthFirstTraversal(neighbors[i]);
         }
+    }
+}
+
+void breadthFirstTraversal(GraphNode* start) {
+    queue<GraphNode*> queue;
+    queue.push(start);
+    start->setStatus(true);
+    while(!queue.empty()) {
+        GraphNode* currentVertex = queue.front();
+        queue.pop();
+        std::cout << currentVertex->getNodeId() << " ";
+        for (int i = 0; i < currentVertex->getNeighbors().size(); i++) {
+            if (!currentVertex->getNeighbors()[i]->getStatus()) {
+                queue.push(currentVertex->getNeighbors()[i]);
+                currentVertex->getNeighbors()[i]->setStatus(true);
+            }
+        }
+
     }
 }
 
@@ -296,7 +317,26 @@ void readGraphFile()
                     depthFirstTraversal(vertices[j]);
                 }
             }
+            std::cout << "\n";
             graphNum = graphNum + 1;
+            // Reset the graph
+            for (int j = 0; j < vertices.size(); j++) {
+                vertices[j]->setStatus(false);
+            }
+        }
+
+        graphNum = 1;
+        std::cout << std::endl;
+        std::cout << "----------------------------" << "\n";
+        std::cout << "BREADTH FIRST TRAVERSAL: " << "\n";
+        std::cout << "----------------------------" << "\n";
+        for (int i = 0; i < graphs.size(); i++) {
+            std::cout << "Graph: " << graphNum << ": ";
+            graphNum = graphNum + 1;
+            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
+            breadthFirstTraversal(vertices[0]);
+            std::cout << std::endl;
+            std::cout << "\n";
         }
     }
 }
