@@ -10,4 +10,6 @@ class Graph {
     const std::vector<GraphNode*>& getVertices();
     void addVertex(std::string id);
     void addEdge(GraphNode* firstNode, GraphNode* secondNode);
+    void breadthFirstTraversal(GraphNode* start);
+    void depthFirstTraversal(GraphNode* start);
 };

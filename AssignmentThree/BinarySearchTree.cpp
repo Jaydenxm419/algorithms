@@ -68,16 +68,21 @@ BSTNode* BinarySearchTree::helpInsertNode(BSTNode *newNode, BSTNode *root) {
     return newNode;
 }
 
+// Method to traverse the tree in order
 void BinarySearchTree::doinOrderTraversal() const {
+    // Start at the top of the tree
     helpInOrderTraversal(this->getRoot());
 }
-
+// Helper method to traverse the tree 
 void BinarySearchTree::helpInOrderTraversal(BSTNode* node) const {
+    // Return up the stack if next node is empty
     if (node == nullptr) {
         return; 
     }
+    // Recurse down to the left
     helpInOrderTraversal(node->getLeft());
     std::cout << node->getData() << "\n";
+    // Recurse down to the right
     helpInOrderTraversal(node->getRight());
 }
 

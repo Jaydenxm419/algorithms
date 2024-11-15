@@ -3,7 +3,7 @@
 class BinarySearchTree {
     private:
         BSTNode* root;
-        int totalComparisons;
+        float totalComparisons;
     public:
         BinarySearchTree();
         const int getTotalComparisons() const;
