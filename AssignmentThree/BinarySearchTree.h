@@ -3,8 +3,10 @@
 class BinarySearchTree {
     private:
         BSTNode* root;
+        float totalComparisons;
     public:
         BinarySearchTree();
+        const int getTotalComparisons() const;
         void setRoot(const std::string& rt);
         BSTNode *insertNode(BSTNode *newNode);
         BSTNode *helpInsertNode(BSTNode *newNode, BSTNode *root);

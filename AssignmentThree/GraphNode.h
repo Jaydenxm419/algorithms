@@ -6,6 +6,7 @@
 
 class GraphNode {
     private:
+        bool processed;
         std::string identifier;
         std::vector<GraphNode*> neighbors;
     public:
@@ -13,6 +14,8 @@ class GraphNode {
         const std::string& getNodeId();
         void addNeighbor(GraphNode* newNeighbor);
         const std::vector<GraphNode*>& getNeighbors() const; 
+        bool getStatus() const;
+        void setStatus(bool status);
 };
 
 #endif
