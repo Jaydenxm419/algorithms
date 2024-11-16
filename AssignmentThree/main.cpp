@@ -1,10 +1,3 @@
-// main.cpp
-#include "AssignmentOne/node.h"
-#include "AssignmentOne/stack.h"
-#include "AssignmentOne/queue.h"
-#include "AssignmentOne/sorting.h"
-#include "AssignmentTwo/Search.h"
-#include "AssignmentTwo/HashTable.h"
 #include "AssignmentThree/BinarySearchTree.h"
 #include "AssignmentThree/Graph.h"
 #include <fstream>
@@ -15,14 +8,20 @@
 #include <sstream>
 using namespace std;
 
+const int MAGIC_ITEM_COUNT = 666;
+const int FIND_MAGIC_ITEM_COUNT = 42;
+const std::string MAGIC_ITEMS_FILE = "TextFiles/magicitems.txt";
+const std::string FIND_MAGIC_ITEMS_FILE = "TextFiles/magicitems-find-in-bst.txt";
+const std::string GRAPH_COMMAND_FILE = "TextFiles/graph.txt";
+
 // Initialize a new binary tree
 BinarySearchTree* doTreeInitialization(){
     // File of items to be read into array
-    ifstream file("magicitems.txt");
+    ifstream file(MAGIC_ITEMS_FILE);
     // Items in file
     string item;
     // Items array that holds magic items from text file
-    string items[666];
+    string items[MAGIC_ITEM_COUNT];
     // Check if the input file exists
     if (file) {
         // Iterate each line of the text file into the items array
@@ -36,7 +35,7 @@ BinarySearchTree* doTreeInitialization(){
     }
     // Make nodes
     BinarySearchTree *BST = new BinarySearchTree();
-    for (int i = 0; i < 666; i++) {
+    for (int i = 0; i < MAGIC_ITEM_COUNT; i++) {
         BSTNode *newNode = new BSTNode(items[i]);
         BST->insertNode(newNode);
     }
@@ -56,12 +55,12 @@ void doDepthFirstTreeTraversal(BinarySearchTree* BST) {
 // Retrieve a number of items from a tree
 void getMagicItems(BinarySearchTree* BST) {
     // File of 42 items 
-    ifstream bstFile("magicitems-find-in-bst.txt");
+    ifstream bstFile(FIND_MAGIC_ITEMS_FILE);
     // Hold each line item
     string item;
     // Read in BST magic items
     item = "";
-    string bstItems[42];
+    string bstItems[FIND_MAGIC_ITEM_COUNT];
     if (bstFile) {
         // Iterate each line of the text file into the items array
         int i = 0;
@@ -76,9 +75,9 @@ void getMagicItems(BinarySearchTree* BST) {
     // Retrieve each item from bstItems
     std::cout << "\n";
     std::cout << "--------------------" << "\n";
-    std::cout << "RETRIEVING 42 ITEMS" << "\n";
+    std::cout << "RETRIEVING  " << FIND_MAGIC_ITEM_COUNT << " ITEMS" << "\n";
     std::cout << "--------------------" << "\n";
-    for (int i = 0; i < 42; i++) {
+    for (int i = 0; i < FIND_MAGIC_ITEM_COUNT; i++) {
         BST->getNode(bstItems[i])->getData();
         std::cout << "\n";
     }
@@ -86,7 +85,7 @@ void getMagicItems(BinarySearchTree* BST) {
     float totalComparisons = BST->getTotalComparisons();
     std::cout << "Total Comparisons: " << totalComparisons << std::endl;
     // Calculate the average number of comparisons
-    float averageComparisons = totalComparisons / 42;
+    float averageComparisons = totalComparisons / FIND_MAGIC_ITEM_COUNT;
     std::cout << "Average Comparisons: " << averageComparisons << std::endl;
 }
 
@@ -107,22 +106,22 @@ std::vector<std::string> parseCommand(const std::string &command) {
 // Print a graph as an adjacency list
 void printAdjacencyList(std::vector<Graph*> graphs) {
     int graphNum = 1;
-        for (int i = 0; i < graphs.size(); i++) {
-            std::vector<GraphNode*> vertices = graphs[i]->getVertices();
-            std::cout << "--------------------" << "\n";
-            std::cout << "ADJACENCY LIST: " << graphNum <<  "\n";
-            std::cout << "--------------------" << "\n";
-            graphNum = graphNum + 1;
-            for (int j = 0; j < vertices.size(); j++) {
-                GraphNode* vertex = vertices[j];
-                std::vector<GraphNode*> neighbors = vertex->getNeighbors();
-                std::cout << "[" << vertex->getNodeId() << "] ";
-                for (int k = 0; k < neighbors.size(); k++) {
-                    std::cout << " " << neighbors[k]->getNodeId();
-                }
-                std::cout << "\n";
+    for (int i = 0; i < graphs.size(); i++) {
+        std::vector<GraphNode*> vertices = graphs[i]->getVertices();
+        std::cout << "--------------------" << "\n";
+        std::cout << "ADJACENCY LIST: " << graphNum <<  "\n";
+        std::cout << "--------------------" << "\n";
+        graphNum = graphNum + 1;
+        for (int j = 0; j < vertices.size(); j++) {
+            GraphNode* vertex = vertices[j];
+            std::vector<GraphNode*> neighbors = vertex->getNeighbors();
+            std::cout << "[" << vertex->getNodeId() << "] ";
+            for (int k = 0; k < neighbors.size(); k++) {
+                std::cout << " " << neighbors[k]->getNodeId();
             }
+            std::cout << "\n";
         }
+    }
 }
 
 // Print a graph as a matrix
@@ -188,9 +187,9 @@ void printGraphMatrix(std::vector<Graph*> graphs) {
 void doDepthFirstTraversals(std::vector<Graph*> graphs){
     // Depth First Traversal
         std::cout << std::endl;
-        std::cout << "*********************" << std::endl;
+        std::cout << "-------------------" << std::endl;
         std::cout << "DEPTH FIRST TRAVERSALS" << std::endl;
-        std::cout << "*********************" << std::endl;
+        std::cout << "-------------------" << std::endl;
         int graphNum = 1;
         // Iterate through all graph objects
         for (int i = 0; i < graphs.size(); i++) {
@@ -226,6 +225,7 @@ void doBreadthFirstTraversal(std::vector<Graph*> graphs) {
     std::cout << "----------------------------" << "\n";
     std::cout << "BREADTH FIRST TRAVERSAL: " << "\n";
     std::cout << "----------------------------" << "\n";
+    // Iterate through the graphs
     for (int i = 0; i < graphs.size(); i++) {
         std::cout << "Graph: " << graphNum << ": ";
         graphNum = graphNum + 1;
@@ -235,10 +235,11 @@ void doBreadthFirstTraversal(std::vector<Graph*> graphs) {
         std::cout << "\n";
     }
 }
+
 // Read graph file instructions
-void readGraphFile() {
+std::vector<Graph*> doGraphsInitialization() {
     // File of commands
-    ifstream file("graph.txt");
+    ifstream file(GRAPH_COMMAND_FILE);
     // Hold the command at a given line
     std::string command;
     // Define a generic graph
@@ -288,28 +289,27 @@ void readGraphFile() {
             }
         }
         file.close();
-
-        // Print the Adjacency List
-        printAdjacencyList(graphs);
-        // Print the matrix
-        printGraphMatrix(graphs);
-        // Print vertices in a depth first traversal
-        doDepthFirstTraversals(graphs);
-        // Print vertices in a breadth first traversal
-        doBreadthFirstTraversal(graphs);
     }
+    return(graphs);
 }
 
 int main() {
     // Initialize the binary search tree
-    // BinarySearchTree* BST = doTreeInitialization();
-    // // Do a traversal of the tree using the left, root, right algorithm
-    // doDepthFirstTreeTraversal(BST);
-    // // Retrieve a number of items from the tree
-    // getMagicItems(BST);
-    
-    readGraphFile();
-
+    BinarySearchTree* BST = doTreeInitialization();
+    // Do a traversal of the tree using the left, root, right algorithm
+    doDepthFirstTreeTraversal(BST);
+    // Retrieve a number of items from the tree
+    getMagicItems(BST);
+    // Get all graphs
+    std::vector<Graph*> graphs = doGraphsInitialization();
+    // Print the graph as an adjacency list
+    printAdjacencyList(graphs);
+    // Print the matrix as an adjacency list
+    printGraphMatrix(graphs);
+    // Print vertices in a depth first traversal
+    doDepthFirstTraversals(graphs);
+    // Print vertices in a breadth first traversal
+    doBreadthFirstTraversal(graphs);
     return 0;
 }
 
