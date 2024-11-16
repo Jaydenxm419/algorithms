@@ -84,8 +84,8 @@ void getMagicItems(BinarySearchTree* BST) {
     // Get the number of comparisons from the tree
     float totalComparisons = BST->getTotalComparisons();
     std::cout << "Total Comparisons: " << totalComparisons << std::endl;
-    // Calculate the average number of comparisons
     float averageComparisons = totalComparisons / FIND_MAGIC_ITEM_COUNT;
+    std::cout << std::fixed << std::setprecision(2);
     std::cout << "Average Comparisons: " << averageComparisons << std::endl;
 }
 
@@ -201,6 +201,7 @@ void doDepthFirstTraversals(std::vector<Graph*> graphs){
             // Do a depth first traversal starting at the first vertex
             graphs[i]->depthFirstTraversal(vertices[0]);
             // Iterate through the vertices to find island vertices
+            std::cout << "\n" << "Island Vertices: " << "\n";
             for (int j = 0; j < vertices.size(); j++) {
                 // If a vertex has no neighbors
                 if(vertices[j]->getNeighbors().empty()) {
