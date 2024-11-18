@@ -1,24 +1,24 @@
 #include "Spice.h"
 
-
-
+// Initialize spice name, quanity, and price
 Spice::Spice(const std::string &nme, const std::string &quant, const std::string &prc) : name(nme), quantity(quant), price(prc) {}
 
-void Spice::setName(std::string name) {
-    this.name = name;
-}
+// Get the color of spice
 std::string Spice::getName() {
     return name;
 }
-void Spice::setQuantity(std::string quantity){
-    this.quantity = quantity;
-}
+// Get the quantity of this spice
 std::string Spice::getQuantity() {
     return quantity;
 }
-void Spice::setPrice(std::string price) {
-    this.price = price;
-}
+// Get the price of this spice
 std::string Spice::getPrice() {
     return price;
+}
+// Calculate the unit price of this spice
+std::string Spice::getUnitPrice() {
+    int quantity = std::stoi(this->getQuantity());
+    int price = std::stoi(this->getPrice());
+    float unitPrice = price / quantity;
+    return std::to_string(unitPrice);
 }
