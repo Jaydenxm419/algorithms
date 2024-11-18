@@ -4,6 +4,8 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -23,19 +25,44 @@ std::vector<std::string> splitString(const std::string& str, char delimiter) {
 }
 
 // Create a new spice object
-void newSpice(std::string instructions) {
-    // Character that is being split on
+Spice* newSpice(std::string instructions) {
+    // Character to split separated command data
     char delimeter = ';';
-    // Vector for the line
+    // To store separated command data
     std::vector<std::string> splitInstructions = splitString(instructions, delimeter);
-
-    for (int i = 0; i < splitInstructions[i].size(); i++) {
-        std::vector<std::string> splitLineInstructions = splitString(splitInstructions[i], ' ');
-        // for (int j = 0; j < splitLineInstructions[j].size(); j++) {
-            std::cout << splitInstructions[i];
-        // }
+    // Character to split within the command data
+    delimeter = '=';
+    // To store individual spice characteristics
+    std::vector<std::string> splitLineInstructions;
+    // To save the relevant command data
+    std::vector<std::string> characteristics;
+    // Define the relevant command data
+    std::string name, price, quantity, characteristic;
+    // Iterate through each spice instruction
+    for (int i = 0; i < splitInstructions.size(); i++) {
+        // Ignore everything before an '='
+        splitLineInstructions = splitString(splitInstructions[i], delimeter);
+        // Store characteristic information following '='
+        characteristic = splitLineInstructions[1];
+        // Remove excess whitespace
+        characteristic.erase(std::remove_if(characteristic.begin(),
+        characteristic.end(), ::isspace), characteristic.end());
+        // Add the characteristic to the vector
+        characteristics.push_back(characteristic);
+        // Release the string pointer
+        characteristic.clear();
     }
-    
+    // Create a spice object
+    name = characteristics[0];
+    price = characteristics[1];
+    quantity = characteristics[2];
+    Spice *spice = new Spice(name, price, quantity);
+    // Release the pointers
+    name.clear(), price.clear(), quantity.clear();
+    splitInstructions.clear();
+    splitLineInstructions.clear();
+    // Return the object
+    return spice;
 }
 
 // Remove comments from the vector
@@ -85,10 +112,14 @@ void completeSpiceExercise() {
     std::vector<std::string> lines = readSpiceFile();
     std::string spiceSubStr = "spice";
     std::string knapsackSubStr = "knapsack";
+    std::vector<Spice*> spices;
     for (int i = 0; i < lines.size(); i++) {
         if (lines[i].find("spice") != std::string::npos) {
-           newSpice(lines[i]);
-           std::cout << std::endl;
+           Spice *spice = newSpice(lines[i]);
+           spices.push_back(spice);
+           std::cout << spice->getName() << "\n";
+           std::cout << spice->getQuantity() << "\n";
+           std::cout << spice->getPrice() << "\n";
         } 
     }
 }
