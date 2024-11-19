@@ -20,7 +20,7 @@ std::vector<std::string> splitString(const std::string& str, char delimiter) {
     while (std::getline(ss, token, delimiter)) {
         tokens.push_back(token);
     }
-
+    // Relieve the pointers
     return tokens;
 }
 
@@ -57,10 +57,6 @@ Spice* newSpice(std::string instructions) {
     price = characteristics[1];
     quantity = characteristics[2];
     Spice *spice = new Spice(name, price, quantity);
-    // Release the pointers
-    name.clear(), price.clear(), quantity.clear();
-    splitInstructions.clear();
-    splitLineInstructions.clear();
     // Return the object
     return spice;
 }
@@ -71,15 +67,20 @@ Knapsack* newKnapsack(std::string instructions) {
     char delimeter = '=';
     // Divide the string on '='
     std::vector<std::string> splitInstructions = splitString(instructions, delimeter);
+    // Split on ';'
     delimeter = ';';
-    std::string capacity;
     splitInstructions = splitString(splitInstructions[1], delimeter);
+    // Hold capacity of knapsack
+    std::string capacity;
     for (int i = 0; i < splitInstructions.size(); i++) {
+        // Get the capacity value
         capacity = splitInstructions[i];
+        // Remove whitespace
         capacity.erase(std::remove_if(capacity.begin(),
         capacity.end(), ::isspace), capacity.end());
     } 
     Knapsack *knapsack = new Knapsack(capacity);
+    // Return the knapsack object
     return knapsack;
 }
 
@@ -92,6 +93,7 @@ std::vector<std::string> doIgnoreComments(std::vector<std::string> lines) {
             lines[i] = "";
         }
     }
+    // Return the pruned commands
     return lines;
 }
 
@@ -124,7 +126,7 @@ std::vector<std::string> readSpiceFile() {
     return lines;
 }
 
-// Get the different objects
+// Get the different spices
 std::vector<Spice*> getSpices(std::string spiceStr) {
     // Get the spice information from the file
     std::vector<std::string> lines = readSpiceFile();
@@ -138,21 +140,91 @@ std::vector<Spice*> getSpices(std::string spiceStr) {
            spices.push_back(spice);
         } 
     }
+    // Return the different spice objects
     return spices;
 }
 
+// Get the different knapsacks
 std::vector<Knapsack*> getKnapsacks(std::string knapsackStr) {
     // Get the spice information from the file
     std::vector<std::string> lines = readSpiceFile();
+    // Hold the different knapsacks
     std::vector<Knapsack*> knapsacks;
     for (int i = 0; i < lines.size(); i++) {
+        // If knapsackStr value intends on finding knapsack commands
         if (lines[i].find("knapsack") != std::string::npos && knapsackStr == "knapsack") {
+           // Create the object based on the current line
            Knapsack *knapsack = newKnapsack(lines[i]);
            // Add the knapsack objects to the vector of knapsacks
            knapsacks.push_back(knapsack);
         }
     }
+    // Return the knapsack objects
     return knapsacks;
+}
+
+// Method to merge many arrays for Merge Sort
+std::vector<Spice*> mergeSpices(std::vector<Spice*> spices, std::vector<Spice*> leftElements, std::vector<Spice*> rightElements) {
+    // Define helper variables for comparison
+    int i = 0;
+    int left = 0;
+    int right = 0;
+
+    // Compare left and right items for merging
+    while (left < leftElements.size() && right < rightElements.size()) {
+        if (leftElements[left]->getUnitPrice() < rightElements[right]->getUnitPrice()) {
+            spices[i] = leftElements[left];
+            left++;
+        } else {
+            spices[i] = rightElements[right];
+            right++;
+        }
+        i++;
+    }
+
+    // Handle remaining elements from leftItems
+    while (left < leftElements.size()) {
+        spices[i] = leftElements[left];
+        left++;
+        i++;
+    }
+
+    // Handle remaining elements from rightItems
+    while (right < rightElements.size()) {
+        spices[i] = rightElements[right];
+        right++;
+        i++;
+    }
+
+    return spices;  // Return the pointer to the merged array
+}
+
+std::vector<Spice*> divideSpices(std::vector<Spice*> spices) {
+    // Get the size of the current vector
+    int size = spices.size();
+    // Return the base case
+    if (size <= 1) {
+        return spices;  
+    }
+    int middle = size / 2; // Determine the middle index
+    std::vector<Spice*> leftElements;  // Define the left array bound
+    std::vector<Spice*> rightElements; // Define the right array bound
+    // Populate left items from the left side of items
+    for (int i = 0; i < middle; i++) {
+        leftElements.push_back(spices[i]); // Add the items on the left to the left array
+    }
+    // Populate right items from the right side of items
+    for (int i = 0; i < size - middle; i++) {
+        rightElements.push_back(spices[i + middle]);
+    }
+    // Recursively call method until base case is reached
+    divideSpices(leftElements);  // Handle the left branch
+    divideSpices(rightElements);  // Handle the right branch
+
+    // Merge leftItems and rightItems until the full array is rebuilt sorted 
+    std::vector<Spice*> mergedSpices = mergeSpices(spices, leftElements, rightElements);
+
+    return spices;
 }
 
 // Complete the spice task
@@ -160,15 +232,14 @@ void completeSpiceExercise() {
     // Get all spice objects
     std::string spiceSubStr = "spice";
     std::vector<Spice*> spices = getSpices(spiceSubStr);
-    for (int i = 0; i < spices.size(); i++) {
-        std::cout << spices[i]->getName() << std::endl;
+    std::vector<Spice*> sortedSpices = divideSpices(spices);
+    for (int i = 0; i < sortedSpices.size(); i++) {
+        std::string unit = sortedSpices[i]->getUnitPrice();
+        std::cout << sortedSpices[i]->getName() << " : "<< unit << "\n";
     }
     // Get all knapsack objects
     std::string knapSubStr = "knapsack";
     std::vector<Knapsack*> knapsacks = getKnapsacks(knapSubStr);
-    for (int i = 0; i < knapsacks.size(); i++) {
-        std::cout << knapsacks[i]->getCapacity() << std::endl;
-    }
 }
 
 // Assignment 4
