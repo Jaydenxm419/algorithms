@@ -2,8 +2,9 @@
 class Knapsack {
     private:
         std::string capacity;
-        std::string id;
+        std::string price;
     public:
         Knapsack(const std::string &cap);
         std::string getCapacity();
+        void setPrice(std::string prc);
 };

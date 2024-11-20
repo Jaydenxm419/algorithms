@@ -237,6 +237,7 @@ void getHighestTake(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks
         int knapsackPrice = 0;
         int i = 0;
         int totalCapacity = knapsackCapacity;
+        std::vector<std::string> names;
         // Iterate until the knapsack is full
         while(knapsackCapacity != 0 && i < spices.size()) {
             // The quantity of a given spice
@@ -244,20 +245,33 @@ void getHighestTake(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks
             if (knapsackCapacity < spiceQuantity) {
                 // Calculate the difference
                 difference = spiceQuantity - knapsackCapacity;
-                // Calculate the new spice quantity
+                // Calculate the new knapsack capacity
                 knapsackCapacity = knapsackCapacity - difference;
                 // Calculate the knapsack price
-                knapsackPrice += spiceQuantity * std::stoi(spices[i]->getPrice());
+                knapsackPrice = difference * std::stoi(spices[i]->getUnitPrice());
+                // Add the name of the spice
+                names.push_back(std::to_string(difference) + " scoop of " + spices[i]->getName());
             } else { // If the spice quantity is less than the knapsack capacity
                 // Get the new capacity
                 knapsackCapacity = knapsackCapacity - spiceQuantity;
                 // Get the new price based on the new capacity
-                knapsackPrice += spiceQuantity * std::stoi(spices[i]->getPrice());
+                knapsackPrice = spiceQuantity * std::stoi(spices[i]->getUnitPrice());
+                // Add the name of the spice
+                names.push_back(std::to_string(spiceQuantity) + " scoop of " + spices[i]->getName());
             }
             i++;
         }
-        std::cout << "Knapsack with capacity: " << totalCapacity << " has: " << knapsackPrice << " of spice: "<< std::endl; 
+        std::string string;
+            for (int i = 0; i < names.size(); i++) {
+                string += names[i] + ", ";
+            }
+            std::cout << "Knapsack of capacity " << totalCapacity << " is worth " << knapsackPrice << " quatloos " <<  "and contains " << string << std::endl; 
         std::cout << "\n";
+
+        difference = 0;
+        knapsackCapacity = 0;
+        knapsackPrice = 0;
+
         // Remove the knapsack
         knapsacks.pop_back();
     }
