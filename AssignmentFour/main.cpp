@@ -56,7 +56,7 @@ Spice* newSpice(std::string instructions) {
     name = characteristics[0];
     price = characteristics[1];
     quantity = characteristics[2];
-    Spice *spice = new Spice(name, price, quantity);
+    Spice *spice = new Spice(name, quantity, price);
     // Return the object
     return spice;
 }
@@ -163,16 +163,16 @@ std::vector<Knapsack*> getKnapsacks(std::string knapsackStr) {
     return knapsacks;
 }
 
-// Method to merge many arrays for Merge Sort
+// Merge many arrays for Merge Sort
 std::vector<Spice*> mergeSpices(std::vector<Spice*> spices, std::vector<Spice*> leftElements, std::vector<Spice*> rightElements) {
     // Define helper variables for comparison
     int i = 0;
     int left = 0;
     int right = 0;
-
     // Compare left and right items for merging
     while (left < leftElements.size() && right < rightElements.size()) {
-        if (leftElements[left]->getUnitPrice() < rightElements[right]->getUnitPrice()) {
+        // Merge together based on unit price
+        if (leftElements[left]->getUnitPrice() > rightElements[right]->getUnitPrice()) {
             spices[i] = leftElements[left];
             left++;
         } else {
@@ -181,25 +181,23 @@ std::vector<Spice*> mergeSpices(std::vector<Spice*> spices, std::vector<Spice*> 
         }
         i++;
     }
-
     // Handle remaining elements from leftItems
     while (left < leftElements.size()) {
         spices[i] = leftElements[left];
         left++;
         i++;
     }
-
     // Handle remaining elements from rightItems
     while (right < rightElements.size()) {
         spices[i] = rightElements[right];
         right++;
         i++;
     }
-
     return spices;  // Return the pointer to the merged array
 }
 
-std::vector<Spice*> divideSpices(std::vector<Spice*> spices) {
+// Merge sort algorithm
+std::vector<Spice*> doMergeSort(std::vector<Spice*> spices) {
     // Get the size of the current vector
     int size = spices.size();
     // Return the base case
@@ -218,13 +216,51 @@ std::vector<Spice*> divideSpices(std::vector<Spice*> spices) {
         rightElements.push_back(spices[i + middle]);
     }
     // Recursively call method until base case is reached
-    divideSpices(leftElements);  // Handle the left branch
-    divideSpices(rightElements);  // Handle the right branch
-
+    leftElements = doMergeSort(leftElements);  // Handle the left branch
+    rightElements = doMergeSort(rightElements);  // Handle the right branch
     // Merge leftItems and rightItems until the full array is rebuilt sorted 
     std::vector<Spice*> mergedSpices = mergeSpices(spices, leftElements, rightElements);
+    return mergedSpices;
+}
 
-    return spices;
+// Calculate the correct combination to maximize a knapsacks value
+void getHighestTake(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks) {
+    while(!knapsacks.empty()) {
+        // Get the last knapsack
+        Knapsack* currentKnapsack = knapsacks.back();
+        // Get the capacity of the knapsack
+        std::string capacity = currentKnapsack->getCapacity();
+        int knapsackCapacity = std::stoi(capacity);
+        // Define values
+        int spiceQuantity = 0;
+        int difference = 0;
+        int knapsackPrice = 0;
+        int i = 0;
+        int totalCapacity = knapsackCapacity;
+        // Iterate until the knapsack is full
+        while(knapsackCapacity != 0 && i < spices.size()) {
+            // The quantity of a given spice
+            spiceQuantity = std::stoi(spices[i]->getQuantity());
+            if (knapsackCapacity < spiceQuantity) {
+                // Calculate the difference
+                difference = spiceQuantity - knapsackCapacity;
+                // Calculate the new spice quantity
+                knapsackCapacity = knapsackCapacity - difference;
+                // Calculate the knapsack price
+                knapsackPrice += spiceQuantity * std::stoi(spices[i]->getPrice());
+            } else { // If the spice quantity is less than the knapsack capacity
+                // Get the new capacity
+                knapsackCapacity = knapsackCapacity - spiceQuantity;
+                // Get the new price based on the new capacity
+                knapsackPrice += spiceQuantity * std::stoi(spices[i]->getPrice());
+            }
+            i++;
+        }
+        std::cout << "Knapsack with capacity: " << totalCapacity << " has: " << knapsackPrice << " of spice: "<< std::endl; 
+        std::cout << "\n";
+        // Remove the knapsack
+        knapsacks.pop_back();
+    }
 }
 
 // Complete the spice task
@@ -232,14 +268,14 @@ void completeSpiceExercise() {
     // Get all spice objects
     std::string spiceSubStr = "spice";
     std::vector<Spice*> spices = getSpices(spiceSubStr);
-    std::vector<Spice*> sortedSpices = divideSpices(spices);
-    for (int i = 0; i < sortedSpices.size(); i++) {
-        std::string unit = sortedSpices[i]->getUnitPrice();
-        std::cout << sortedSpices[i]->getName() << " : "<< unit << "\n";
-    }
+    // Sort objects by unit price
+    std::vector<Spice*> sortedSpices = doMergeSort(spices);
     // Get all knapsack objects
     std::string knapSubStr = "knapsack";
     std::vector<Knapsack*> knapsacks = getKnapsacks(knapSubStr);
+    // Calculate the greatest value for each knapsack
+    getHighestTake(sortedSpices, knapsacks);
+
 }
 
 // Assignment 4

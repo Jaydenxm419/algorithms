@@ -20,6 +20,6 @@ std::string Spice::getPrice() {
 std::string Spice::getUnitPrice() {
     int quantity = std::stoi(this->getQuantity());
     int price = std::stoi(this->getPrice());
-    float unitPrice = quantity / price;
+    float unitPrice = price / quantity;
     return std::to_string(unitPrice);
 }
