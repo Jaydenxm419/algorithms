@@ -1,5 +1,5 @@
-#include "Spice.h"
-#include "Knapsack.h"
+#include "include/Spice.h"
+#include "include/Knapsack.h"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -10,7 +10,10 @@
 
 using namespace std;
 
-string SPICE_FILE = "AssignmentFour/spice.txt";
+const string SPICE_FILE = "AssignmentFour/spice.txt";
+const string SPICE_KEY_WORD = "spice";
+const string KNAPSACK_KEY_WORD = "knapsack";
+const string COMMENT_INDICATOR = "--";
 
 // Split a string based on a delimiter
 std::vector<std::string> splitString(const std::string& str, char delimiter) {
@@ -20,7 +23,6 @@ std::vector<std::string> splitString(const std::string& str, char delimiter) {
     while (std::getline(ss, token, delimiter)) {
         tokens.push_back(token);
     }
-    // Relieve the pointers
     return tokens;
 }
 
@@ -86,31 +88,35 @@ Knapsack* newKnapsack(std::string instructions) {
 
 // Remove comments from the vector
 std::vector<std::string> doIgnoreComments(std::vector<std::string> lines) {
-    string commentIndicator = "--";
+    // Find lines designated as comments
     for (int i = 0; i < lines.size(); i++) {
-        if (lines[i].find(commentIndicator) != std::string::npos) {
-            lines[i] = lines[i + 1];
+        if (lines[i].find(COMMENT_INDICATOR) != std::string::npos) {
             lines[i] = "";
         }
     }
-    // Return the pruned commands
+    // Return the vector clean of comments
     return lines;
 }
 
 // Remove excess spaces from a vector
 std::vector<std::string> doStripLines(std::vector<std::string> lines) {
+    // Hold all lines that are not empty
     std::vector<std::string> cleanedLines;
+    // Find lines with data
     for (int i = 0; i < lines.size(); i++) {
         if(lines[i] != "") {
             cleanedLines.push_back(lines[i]);
         }
     }
+    // Return the vector clean of empty lines
     return cleanedLines;
 }
 
 // Read spice file
-std::vector<std::string> readSpiceFile() {
+std::vector<std::string> readHeistFile() {
+    // To hold each line
     std::vector<std::string> lines;
+    // Read and extract lines
     ifstream file(SPICE_FILE);
     string line;
     if (file) {
@@ -129,12 +135,12 @@ std::vector<std::string> readSpiceFile() {
 // Get the different spices
 std::vector<Spice*> getSpices(std::string spiceStr) {
     // Get the spice information from the file
-    std::vector<std::string> lines = readSpiceFile();
+    std::vector<std::string> lines = readHeistFile();
     std::vector<Spice*> spices;
     // Iterate to find spice commands
     for (int i = 0; i < lines.size(); i++) {
-        // If object value intends on finding spice commands 
-        if (lines[i].find("spice") != std::string::npos && spiceStr == "spice") {
+        // If line is a spice command
+        if (lines[i].find(spiceStr) != std::string::npos) {
            Spice *spice = newSpice(lines[i]);
            // Add the spice object to the vector of spices
            spices.push_back(spice);
@@ -147,13 +153,12 @@ std::vector<Spice*> getSpices(std::string spiceStr) {
 // Get the different knapsacks
 std::vector<Knapsack*> getKnapsacks(std::string knapsackStr) {
     // Get the spice information from the file
-    std::vector<std::string> lines = readSpiceFile();
-    // Hold the different knapsacks
+    std::vector<std::string> lines = readHeistFile();
     std::vector<Knapsack*> knapsacks;
+    // Iterate to find knapsack commands
     for (int i = 0; i < lines.size(); i++) {
-        // If knapsackStr value intends on finding knapsack commands
-        if (lines[i].find("knapsack") != std::string::npos && knapsackStr == "knapsack") {
-           // Create the object based on the current line
+        // If the line is a knapsack command
+        if (lines[i].find(knapsackStr) != std::string::npos) {
            Knapsack *knapsack = newKnapsack(lines[i]);
            // Add the knapsack objects to the vector of knapsacks
            knapsacks.push_back(knapsack);
@@ -169,7 +174,7 @@ std::vector<Spice*> mergeSpices(std::vector<Spice*> spices, std::vector<Spice*> 
     int i = 0;
     int left = 0;
     int right = 0;
-    // Compare left and right items for merging
+    // Compare left and right items for merging from greatest to least
     while (left < leftElements.size() && right < rightElements.size()) {
         // Merge together based on unit price
         if (leftElements[left]->getUnitPrice() > rightElements[right]->getUnitPrice()) {
@@ -224,54 +229,43 @@ std::vector<Spice*> doMergeSort(std::vector<Spice*> spices) {
 }
 
 // Calculate the correct combination to maximize a knapsacks value
-void getHighestTake(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks) {
+void getHighestValue(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks) {
+    // Iterate through different knapsacks
     while(!knapsacks.empty()) {
-        // Get the last knapsack
         Knapsack* currentKnapsack = knapsacks.back();
-        // Get the capacity of the knapsack
-        std::string capacity = currentKnapsack->getCapacity();
-        int knapsackCapacity = std::stoi(capacity);
-        // Define values
-        int spiceQuantity = 0;
-        int difference = 0;
+        int knapsackCapacity = std::stoi(currentKnapsack->getCapacity());
+        // The total value of a knapsack
         int knapsackPrice = 0;
-        int i = 0;
-        int totalCapacity = knapsackCapacity;
-        std::vector<std::string> names;
+        // Hold the spice names within a knapsack
+        std::vector<std::string> spiceNames;
         // Iterate until the knapsack is full
-        while(knapsackCapacity != 0 && i < spices.size()) {
+        int currentSpiceIndex = 0;
+        while(knapsackCapacity != 0 && currentSpiceIndex < spices.size()) {
             // The quantity of a given spice
-            spiceQuantity = std::stoi(spices[i]->getQuantity());
+            int spiceQuantity = std::stoi(spices[currentSpiceIndex]->getQuantity());
+            // Hold value for fractional spice quantity
+            int fractionOfSpice = 0;
+            // The capacity of the knapsack is less than the total amount of a given spice
             if (knapsackCapacity < spiceQuantity) {
-                // Calculate the difference
-                difference = spiceQuantity - knapsackCapacity;
-                // Calculate the new knapsack capacity
-                knapsackCapacity = knapsackCapacity - difference;
-                // Calculate the knapsack price
-                knapsackPrice = difference * std::stoi(spices[i]->getUnitPrice());
-                // Add the name of the spice
-                names.push_back(std::to_string(difference) + " scoop of " + spices[i]->getName());
-            } else { // If the spice quantity is less than the knapsack capacity
-                // Get the new capacity
+                // Get the price of leftover spice that fills up the knapsack
+                fractionOfSpice = spiceQuantity - knapsackCapacity;
+                knapsackCapacity = knapsackCapacity - fractionOfSpice;
+                knapsackPrice += fractionOfSpice * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
+                spiceNames.push_back(std::to_string(fractionOfSpice) + " scoop of " + spices[currentSpiceIndex]->getName());
+            } else { // The total spice quantity is less than the knapsack capacity
+                // Get the price of the next spice addition to the knapsack
                 knapsackCapacity = knapsackCapacity - spiceQuantity;
-                // Get the new price based on the new capacity
-                knapsackPrice = spiceQuantity * std::stoi(spices[i]->getUnitPrice());
-                // Add the name of the spice
-                names.push_back(std::to_string(spiceQuantity) + " scoop of " + spices[i]->getName());
+                knapsackPrice += spiceQuantity * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
+                spiceNames.push_back(std::to_string(spiceQuantity) + " scoop of " + spices[currentSpiceIndex]->getName());
             }
-            i++;
+            currentSpiceIndex++;
         }
+        // Build a string containing all spices and number of scoops
         std::string string;
-            for (int i = 0; i < names.size(); i++) {
-                string += names[i] + ", ";
-            }
-            std::cout << "Knapsack of capacity " << totalCapacity << " is worth " << knapsackPrice << " quatloos " <<  "and contains " << string << std::endl; 
-        std::cout << "\n";
-
-        difference = 0;
-        knapsackCapacity = 0;
-        knapsackPrice = 0;
-
+        for (int i = 0; i < spiceNames.size(); i++) {
+            string += spiceNames[i] + ", ";
+        }
+        std::cout << "Knapsack of capacity " << currentKnapsack->getCapacity() << " is worth " << knapsackPrice << " quatloos " <<  "and contains " << string << std::endl;
         // Remove the knapsack
         knapsacks.pop_back();
     }
@@ -280,15 +274,13 @@ void getHighestTake(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks
 // Complete the spice task
 void completeSpiceExercise() {
     // Get all spice objects
-    std::string spiceSubStr = "spice";
-    std::vector<Spice*> spices = getSpices(spiceSubStr);
+    std::vector<Spice*> spices = getSpices(SPICE_KEY_WORD);
     // Sort objects by unit price
     std::vector<Spice*> sortedSpices = doMergeSort(spices);
     // Get all knapsack objects
-    std::string knapSubStr = "knapsack";
-    std::vector<Knapsack*> knapsacks = getKnapsacks(knapSubStr);
+    std::vector<Knapsack*> knapsacks = getKnapsacks(KNAPSACK_KEY_WORD);
     // Calculate the greatest value for each knapsack
-    getHighestTake(sortedSpices, knapsacks);
+    getHighestValue(sortedSpices, knapsacks);
 
 }
 

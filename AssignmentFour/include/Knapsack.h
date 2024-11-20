@@ -1,4 +1,5 @@
 #include <string>
+
 class Knapsack {
     private:
         std::string capacity;
@@ -6,5 +7,4 @@ class Knapsack {
     public:
         Knapsack(const std::string &cap);
         std::string getCapacity();
-        void setPrice(std::string prc);
 };
