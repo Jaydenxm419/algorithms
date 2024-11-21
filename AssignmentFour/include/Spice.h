@@ -1,5 +1,7 @@
 #include <string>
 
+#ifndef SPICE_H
+#define SPICE_H
 class Spice {
     private:
         std::string name;
@@ -14,3 +16,5 @@ class Spice {
         std::string calculateUnitPrice();
         std::string getUnitPrice();
 };
+
+#endif 

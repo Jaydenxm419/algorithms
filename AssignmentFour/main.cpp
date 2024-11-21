@@ -228,6 +228,37 @@ std::vector<Spice*> doMergeSort(std::vector<Spice*> spices) {
     return mergedSpices;
 }
 
+void buildHeistOutput(Knapsack* currentKnapsack) {
+    // Track first spice print to prevent duplicate knapsack characteritic prints
+    bool firstSpice = true;
+    // Number of spices in the knapsack
+    int currentKnapsackSize = currentKnapsack->getContents().size();
+    // Get the total capacity of the knapsack
+    std::string currentKnapsackCapacity = currentKnapsack->getCapacity();
+    // Iterate through the spices in the knapsack
+    for (int i = 0; i < currentKnapsack->getContents().size(); i++) {
+        // Hold the output string and separator for printing
+        std::string outputStr; 
+        std::string separator;
+        // Add comma to appropriate parts of the string only
+        if (i == currentKnapsackSize - 1) {
+            separator = "";
+        } else {
+            separator = ", ";
+        }
+        // Build the output string
+        if (firstSpice) {
+            outputStr = "Knapsack of capacity " + currentKnapsackCapacity + " is worth " + currentKnapsack->getTotalPrice() + " and contains " + currentKnapsack->getContents()[i]->getQuantity() + " scoops of " + currentKnapsack->getContents()[i]->getName() + separator;
+            firstSpice = false;
+        } else {
+            outputStr += currentKnapsack->getContents()[i]->getQuantity() + " scoops of " + currentKnapsack->getContents()[i]->getName() + separator;
+        }
+        // Print the contents of the knapsack 
+        std::cout << outputStr;
+    }
+    std::cout << std::endl;
+}
+
 // Calculate the correct combination to maximize a knapsacks value
 void getHighestValue(std::vector<Spice*> spices, std::vector<Knapsack*> knapsacks) {
     // Iterate through different knapsacks
@@ -250,22 +281,21 @@ void getHighestValue(std::vector<Spice*> spices, std::vector<Knapsack*> knapsack
                 // Get the price of leftover spice that fills up the knapsack
                 fractionOfSpice = spiceQuantity - knapsackCapacity;
                 knapsackCapacity = knapsackCapacity - fractionOfSpice;
-                knapsackPrice += fractionOfSpice * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
-                spiceNames.push_back(std::to_string(fractionOfSpice) + " scoop of " + spices[currentSpiceIndex]->getName());
+                knapsackPrice = fractionOfSpice * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
+                // Spice object added to the knapsack
+                Spice *spice = new Spice(spices[currentSpiceIndex]->getName(), to_string(fractionOfSpice), to_string(knapsackPrice));
+                currentKnapsack->addSpice(spice);
             } else { // The total spice quantity is less than the knapsack capacity
                 // Get the price of the next spice addition to the knapsack
                 knapsackCapacity = knapsackCapacity - spiceQuantity;
-                knapsackPrice += spiceQuantity * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
-                spiceNames.push_back(std::to_string(spiceQuantity) + " scoop of " + spices[currentSpiceIndex]->getName());
+                knapsackPrice = spiceQuantity * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
+                Spice *spice = new Spice(spices[currentSpiceIndex]->getName(), to_string(spiceQuantity), to_string(knapsackPrice));
+                currentKnapsack->addSpice(spice);
             }
             currentSpiceIndex++;
         }
         // Build a string containing all spices and number of scoops
-        std::string string;
-        for (int i = 0; i < spiceNames.size(); i++) {
-            string += spiceNames[i] + ", ";
-        }
-        std::cout << "Knapsack of capacity " << currentKnapsack->getCapacity() << " is worth " << knapsackPrice << " quatloos " <<  "and contains " << string << std::endl;
+        buildHeistOutput(currentKnapsack);
         // Remove the knapsack
         knapsacks.pop_back();
     }
