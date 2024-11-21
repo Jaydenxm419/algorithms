@@ -26,3 +26,8 @@ std::string Spice::calculateUnitPrice() {
 std::string Spice::getUnitPrice() {
     return unitPrice;
 }
+
+void Spice::digSpice(std::string numOfSpice) {
+    int newQuantity = std::stoi(quantity) - std::stoi(numOfSpice);
+    quantity = newQuantity;
+}

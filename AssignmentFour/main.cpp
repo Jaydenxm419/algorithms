@@ -282,15 +282,22 @@ void getHighestValue(std::vector<Spice*> spices, std::vector<Knapsack*> knapsack
                 fractionOfSpice = spiceQuantity - knapsackCapacity;
                 knapsackCapacity = knapsackCapacity - fractionOfSpice;
                 knapsackPrice = fractionOfSpice * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
-                // Spice object added to the knapsack
+                // Spice object representing a fraction of the original added to the knapsack
                 Spice *spice = new Spice(spices[currentSpiceIndex]->getName(), to_string(fractionOfSpice), to_string(knapsackPrice));
+                // Add spice to the knapsack
                 currentKnapsack->addSpice(spice);
-            } else { // The total spice quantity is less than the knapsack capacity
+                // Dig spice from arrakis
+                spices[currentSpiceIndex]->digSpice(spice->getQuantity());
+            } else { 
                 // Get the price of the next spice addition to the knapsack
                 knapsackCapacity = knapsackCapacity - spiceQuantity;
                 knapsackPrice = spiceQuantity * std::stoi(spices[currentSpiceIndex]->getUnitPrice());
+                // Spice object added to the knapsack
                 Spice *spice = new Spice(spices[currentSpiceIndex]->getName(), to_string(spiceQuantity), to_string(knapsackPrice));
+                // Add psice to the knapsack
                 currentKnapsack->addSpice(spice);
+                // Dig spice from arrakis
+                spices[currentSpiceIndex]->digSpice(spice->getQuantity());
             }
             currentSpiceIndex++;
         }

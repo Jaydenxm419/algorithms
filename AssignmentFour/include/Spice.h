@@ -15,6 +15,7 @@ class Spice {
         std::string getPrice();
         std::string calculateUnitPrice();
         std::string getUnitPrice();
+        void digSpice(std::string numOfSpice);
 };
 
 #endif 
