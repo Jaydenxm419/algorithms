@@ -1,40 +1,42 @@
 #include "AssignmentFour/include/Spice.h"
 #include <iostream>
+#include <string>
+using namespace std;
 
 // Initialize spice name, quanity, and price
-Spice::Spice(const std::string &nme, const std::string &quant, const std::string &prc) : name(nme), quantity(quant), price(prc), unitPrice(calculateUnitPrice()), originalQuantity(std::stoi(getQuantity())) {}
+Spice::Spice(const string &nme, const string &quant, const string &prc) : name(nme), quantity(quant), price(prc), unitPrice(calculateUnitPrice()), originalQuantity(stoi(getQuantity())) {}
 
 // Get the color of spice
-std::string Spice::getName() {
+string Spice::getName() {
     return name;
 }
 // Get the quantity of this spice
-std::string Spice::getQuantity() {
+string Spice::getQuantity() {
     return quantity;
 }
 // Set the quantity to reset 
 void Spice::setQuantity(int quant) {
-    quantity = std::to_string(quant);
+    quantity = to_string(quant);
 }
 // Get the price of this spice
-std::string Spice::getPrice() {
+string Spice::getPrice() {
     return price;
 }
 // Calculate the unit price of this spice
-std::string Spice::calculateUnitPrice() {
-    int quantity = std::stoi(this->getQuantity());
-    int price = std::stoi(this->getPrice());
+string Spice::calculateUnitPrice() {
+    int quantity = stoi(this->getQuantity());
+    int price = stoi(this->getPrice());
     float unitPrice = price / quantity;
-    return std::to_string(unitPrice);
+    return to_string(unitPrice);
 }
 // Return the unit price
-std::string Spice::getUnitPrice() {
+string Spice::getUnitPrice() {
     return unitPrice;
 }
 // Remove spice from Arrakis
-void Spice::digSpice(std::string numOfSpice) {
-    int newQuantity = std::stoi(quantity) - std::stoi(numOfSpice);
-    quantity = std::to_string(newQuantity);
+void Spice::digSpice(string numOfSpice) {
+    int newQuantity = stoi(quantity) - stoi(numOfSpice);
+    quantity = to_string(newQuantity);
 }
 // Save the original quantity 
 int Spice::getOriginalQuantity() {
