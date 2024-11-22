@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Initialize spice name, quanity, and price
-Spice::Spice(const std::string &nme, const std::string &quant, const std::string &prc) : name(nme), quantity(quant), price(prc), unitPrice(calculateUnitPrice()) {}
+Spice::Spice(const std::string &nme, const std::string &quant, const std::string &prc) : name(nme), quantity(quant), price(prc), unitPrice(calculateUnitPrice()), originalQuantity(std::stoi(getQuantity())) {}
 
 // Get the color of spice
 std::string Spice::getName() {
@@ -11,6 +11,10 @@ std::string Spice::getName() {
 // Get the quantity of this spice
 std::string Spice::getQuantity() {
     return quantity;
+}
+// Set the quantity to reset 
+void Spice::setQuantity(int quant) {
+    quantity = std::to_string(quant);
 }
 // Get the price of this spice
 std::string Spice::getPrice() {
@@ -23,11 +27,16 @@ std::string Spice::calculateUnitPrice() {
     float unitPrice = price / quantity;
     return std::to_string(unitPrice);
 }
+// Return the unit price
 std::string Spice::getUnitPrice() {
     return unitPrice;
 }
-
+// Remove spice from Arrakis
 void Spice::digSpice(std::string numOfSpice) {
     int newQuantity = std::stoi(quantity) - std::stoi(numOfSpice);
-    quantity = newQuantity;
+    quantity = std::to_string(newQuantity);
+}
+// Save the original quantity 
+int Spice::getOriginalQuantity() {
+    return originalQuantity;
 }

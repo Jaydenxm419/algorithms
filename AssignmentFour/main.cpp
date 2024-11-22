@@ -228,35 +228,30 @@ std::vector<Spice*> doMergeSort(std::vector<Spice*> spices) {
     return mergedSpices;
 }
 
+// Build a string for heist output
 void buildHeistOutput(Knapsack* currentKnapsack) {
-    // Track first spice print to prevent duplicate knapsack characteritic prints
-    bool firstSpice = true;
-    // Number of spices in the knapsack
-    int currentKnapsackSize = currentKnapsack->getContents().size();
-    // Get the total capacity of the knapsack
-    std::string currentKnapsackCapacity = currentKnapsack->getCapacity();
-    // Iterate through the spices in the knapsack
-    for (int i = 0; i < currentKnapsack->getContents().size(); i++) {
-        // Hold the output string and separator for printing
-        std::string outputStr; 
-        std::string separator;
-        // Add comma to appropriate parts of the string only
-        if (i == currentKnapsackSize - 1) {
-            separator = "";
-        } else {
-            separator = ", ";
+    // Get knapsack details
+    const std::vector<Spice*> contents = currentKnapsack->getContents();
+    int currentKnapsackSize = contents.size();
+    std::string knapsackCapacity = currentKnapsack->getCapacity();
+    std::string totalPrice = currentKnapsack->getTotalPrice();
+
+    // Prepare output
+    std::ostringstream output;
+    output << "Knapsack of capacity " << knapsackCapacity 
+           << " is worth " << totalPrice 
+           << " and contains ";
+           
+    // Append spices
+    for (int i = 0; i < currentKnapsackSize; ++i) {
+        output << contents[i]->getQuantity() << " scoops of " 
+               << contents[i]->getName();
+        if (i < currentKnapsackSize - 1) {
+            output << ", ";
         }
-        // Build the output string
-        if (firstSpice) {
-            outputStr = "Knapsack of capacity " + currentKnapsackCapacity + " is worth " + currentKnapsack->getTotalPrice() + " and contains " + currentKnapsack->getContents()[i]->getQuantity() + " scoops of " + currentKnapsack->getContents()[i]->getName() + separator;
-            firstSpice = false;
-        } else {
-            outputStr += currentKnapsack->getContents()[i]->getQuantity() + " scoops of " + currentKnapsack->getContents()[i]->getName() + separator;
-        }
-        // Print the contents of the knapsack 
-        std::cout << outputStr;
     }
-    std::cout << std::endl;
+    // Print the result
+    std::cout << output.str() << std::endl;
 }
 
 // Calculate the correct combination to maximize a knapsacks value
@@ -297,12 +292,19 @@ void getHighestValue(std::vector<Spice*> spices, std::vector<Knapsack*> knapsack
                 // Add psice to the knapsack
                 currentKnapsack->addSpice(spice);
                 // Dig spice from arrakis
-                spices[currentSpiceIndex]->digSpice(spice->getQuantity());
+                spices[currentSpiceIndex]->digSpice(to_string(spiceQuantity));
             }
             currentSpiceIndex++;
         }
         // Build a string containing all spices and number of scoops
         buildHeistOutput(currentKnapsack);
+
+        // Reset the spices quantities for the next knapsack
+        for (int i = 0; i < spices.size(); i++) {
+            // Print the amount of spice still on Arrakis
+            std::cout << "Arrakis has " << spices[i]->getQuantity() << " of " << spices[i]->getName() << " spice unclaimed" << "\n";
+            spices[i]->setQuantity(spices[i]->getOriginalQuantity());
+        }
         // Remove the knapsack
         knapsacks.pop_back();
     }
