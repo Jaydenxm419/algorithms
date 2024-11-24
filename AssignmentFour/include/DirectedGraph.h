@@ -13,6 +13,7 @@ class DirectedGraph {
     public:
         DirectedGraph();
         vector<DirectedGraphVertex*> getVertices();
+        void addVertex(DirectedGraphVertex* vertex);
 };
 
 #endif

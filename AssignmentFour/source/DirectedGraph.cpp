@@ -4,7 +4,11 @@
 // Start with an empty directed graph
 DirectedGraph::DirectedGraph() : vertices() {}
 
-// Return the vertices in the directed graph
+// Return the vertices
 vector<DirectedGraphVertex*> DirectedGraph::getVertices() {
     return vertices;
+}
+// Add a vertex
+void DirectedGraph::addVertex(DirectedGraphVertex* vertex) {
+    this->vertices.push_back(vertex);
 }
