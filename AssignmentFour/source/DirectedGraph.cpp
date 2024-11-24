@@ -1,5 +1,7 @@
 #include "AssignmentFour/include/DirectedGraph.h"
 #include "AssignmentFour/include/DirectedGraphVertex.h"
+#include <vector>
+using namespace std;
 
 // Start with an empty directed graph
 DirectedGraph::DirectedGraph() : vertices() {}

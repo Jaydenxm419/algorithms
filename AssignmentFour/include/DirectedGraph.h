@@ -1,11 +1,10 @@
-#include <string>
 #include <vector>
-#include "DirectedGraphVertex.h"
 using namespace std;
 
 #ifndef DIRECTEDGRAPH_H
 #define DIRECTEDGRAPH_H
 
+class DirectedGraphVertex;
 /* This class represents a directed graph */
 class DirectedGraph {
     private:

@@ -1,4 +1,7 @@
 #include "AssignmentFour/include/DirectedGraphVertex.h"
+#include <vector>
+#include <string>
+using namespace std;
 
 DirectedGraphVertex::DirectedGraphVertex(const std::string& identifier) : id(identifier), weight(), predecessor(), neighbors() {}
 

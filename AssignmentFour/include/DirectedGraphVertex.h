@@ -1,10 +1,11 @@
-#include "AssignmentFour/include/DirectedGraphEdge.h"
 #include <vector>
 #include <string>
-using namespace std;
 
-#ifndef DIRECTEDGRAPHVERTEX_H
-#define DIRECTEDGRAPHVERTEX_H
+using namespace std;
+#ifndef DIRECTED_GRAPH_VERTEX_H
+#define DIRECTED_GRAPH_VERTEX_H
+
+class DirectedGraphEdge;
 class DirectedGraphVertex {
     private:
         // Neighbors of a vertex 
