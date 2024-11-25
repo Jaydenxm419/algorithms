@@ -15,7 +15,8 @@ class ParseHeistFile {
         // Strip single text lines of spaces
         vector<string> doStripLines(std::vector<string> lines);
         // Returns the cleaned lines in a text file as a vector
-        vector<string> readHeistFile();
+        vector<string> readHeistFile(string file);
 };
+extern ParseHeistFile parse;
 
 #endif

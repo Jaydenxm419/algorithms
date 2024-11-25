@@ -8,7 +8,7 @@
 using namespace std;
 
 // Class that contains file parsing methods
-ParseHeistFile parse;
+const string SPICE_FILE = "AssignmentFour/spice.txt";
 
 // Create a new spice object
 Spice* SpiceHeist::newSpice(string instructions) {
@@ -70,7 +70,7 @@ Knapsack* SpiceHeist::newKnapsack(string instructions) {
 // Get the different spices
 vector<Spice*> SpiceHeist::getSpices(string spiceStr) {
     // Get the spice information from the file
-    vector<string> lines = parse.readHeistFile();
+    vector<string> lines = parse.readHeistFile(SPICE_FILE);
     vector<Spice*> spices;
     // Iterate to find spice commands
     for (int i = 0; i < lines.size(); i++) {
@@ -88,7 +88,7 @@ vector<Spice*> SpiceHeist::getSpices(string spiceStr) {
 // Get the different knapsacks
 vector<Knapsack*> SpiceHeist::getKnapsacks(string knapsackStr) {
     // Get the spice information from the file
-    vector<string> lines = parse.readHeistFile();
+    vector<string> lines = parse.readHeistFile(SPICE_FILE);
     vector<Knapsack*> knapsacks;
     // Iterate to find knapsack commands
     for (int i = 0; i < lines.size(); i++) {

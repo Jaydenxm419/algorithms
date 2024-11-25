@@ -6,7 +6,6 @@
 using namespace std;
 
 const string COMMENT_INDICATOR = "--";
-const string SPICE_FILE = "AssignmentFour/spice.txt";
 
 // Split a string based on a delimiter
 vector<string> ParseHeistFile::splitString(const string& str, char delimiter) {
@@ -46,11 +45,11 @@ vector<string> ParseHeistFile::doStripLines(vector<string> lines) {
 }
 
 // Read spice file
-vector<string> ParseHeistFile::readHeistFile() {
+vector<string> ParseHeistFile::readHeistFile(string newFile) {
     // To hold each line
     vector<string> lines;
     // Read and extract lines
-    ifstream file(SPICE_FILE);
+    ifstream file(newFile);
     string line;
     if (file) {
         while (getline(file, line)) {
@@ -64,3 +63,5 @@ vector<string> ParseHeistFile::readHeistFile() {
     lines = doStripLines(lines);
     return lines;
 }
+
+ParseHeistFile parse;
