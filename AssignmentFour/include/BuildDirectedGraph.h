@@ -1,13 +1,19 @@
+#include <string>
+using namespace std;
 
-#ifndef BUILD_DIRECTED_GRAPH.H
-#define BUILD_DIRECTED_GRAPH.H
+#ifndef BUILD_DIRECTED_GRAPH_H
+#define BUILD_DIRECTED_GRAPH_H
+
+class DirectedGraph;
+class DirectedGraphVertex;
 
 class BuildDirectedGraph {
     public:
         BuildDirectedGraph();
-        void newGraph();
-        void newVertex();
-        void newEdge();
+        DirectedGraph* newGraph();
+        DirectedGraphVertex* newVertex(DirectedGraph* graph);
+        void newEdge(DirectedGraphVertex* fromGraph, DirectedGraphVertex* toGraph);
+        void buildGraph(vector<string> instructions);
 };
 
 extern BuildDirectedGraph build;
