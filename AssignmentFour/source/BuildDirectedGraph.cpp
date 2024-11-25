@@ -20,8 +20,10 @@ DirectedGraph* BuildDirectedGraph::newGraph() {
 }
 
 // Create a new vertex instance in a graph
-DirectedGraphVertex* BuildDirectedGraph::newVertex(DirectedGraph* graph) {
-    
+DirectedGraphVertex* BuildDirectedGraph::newVertex(DirectedGraph* graph, string id) {
+    DirectedGraphVertex *vertex = new DirectedGraphVertex(id);
+    graph->addVertex(vertex);
+    return vertex;
 }
 
 void BuildDirectedGraph::newEdge(DirectedGraphVertex* fromVertex, DirectedGraphVertex* toVertex) {
@@ -36,10 +38,14 @@ void BuildDirectedGraph::buildGraph(vector<string> instructions) {
     for (int i = 0; i < instructions.size(); i++) {
         if (instructions[i].find(NEW_GRAPH_SUBSTRING) != string::npos) {
            graph = newGraph();
-           if (graph->getVertices().empty()) {
-            cout << "Empty";
+        } else if (instructions[i].find(NEW_VERTEX_SUBSTRING)) {
+           vertex = newVertex(graph, "1");
+           for (int j = 0; j < graph->getVertices().size(); j++) {
+            cout << graph->getVertices()[j]->getId();
            }
-        } 
+           
+        }
+
     }
 }
 

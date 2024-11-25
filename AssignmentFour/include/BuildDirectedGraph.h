@@ -11,7 +11,7 @@ class BuildDirectedGraph {
     public:
         BuildDirectedGraph();
         DirectedGraph* newGraph();
-        DirectedGraphVertex* newVertex(DirectedGraph* graph);
+        DirectedGraphVertex* newVertex(DirectedGraph* graph, string id);
         void newEdge(DirectedGraphVertex* fromGraph, DirectedGraphVertex* toGraph);
         void buildGraph(vector<string> instructions);
 };
