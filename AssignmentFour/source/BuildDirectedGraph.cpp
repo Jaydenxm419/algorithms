@@ -1,6 +1,8 @@
 #include "AssignmentFour/include/BuildDirectedGraph.h"
 #include "AssignmentFour/include/DirectedGraph.h"
 #include "AssignmentFour/include/DirectedGraphVertex.h"
+#include "AssignmentFour/include/ParseHeistFile.h"
+#include "AssignmentFour/include/ProjectConstants.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -8,10 +10,6 @@ using namespace std;
 
 
 BuildDirectedGraph::BuildDirectedGraph() {}
-
-const string NEW_GRAPH_SUBSTRING = "new graph";
-const string NEW_VERTEX_SUBSTRING = "new vertex";
-const string NEW_EDGE_SUBSTRING = "new edge";
 
 // Create a new graph instance
 DirectedGraph* BuildDirectedGraph::newGraph() {
@@ -38,12 +36,9 @@ void BuildDirectedGraph::buildGraph(vector<string> instructions) {
     for (int i = 0; i < instructions.size(); i++) {
         if (instructions[i].find(NEW_GRAPH_SUBSTRING) != string::npos) {
            graph = newGraph();
-        } else if (instructions[i].find(NEW_VERTEX_SUBSTRING)) {
-           vertex = newVertex(graph, "1");
-           for (int j = 0; j < graph->getVertices().size(); j++) {
-            cout << graph->getVertices()[j]->getId();
-           }
-           
+        } else if (instructions[i].find(ADD_VERTEX_SUBSTRING) != string::npos) {
+           vector<string> vertexInfo = parse.parseGraphInstruction(instructions[i]);
+           vertex = newVertex(graph, vertexInfo[0]);
         }
 
     }

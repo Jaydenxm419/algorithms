@@ -1,8 +1,10 @@
 #include "AssignmentFour/include/ParseHeistFile.h"
+#include "AssignmentFour/include/ProjectConstants.h"
 #include <sstream>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 const string COMMENT_INDICATOR = "--";
@@ -62,6 +64,20 @@ vector<string> ParseHeistFile::readHeistFile(string newFile) {
     // Strip the text of empty lines
     lines = doStripLines(lines);
     return lines;
+}
+
+vector<string> ParseHeistFile::parseGraphInstruction(string instructionType) {
+    vector<string> splitStr;
+    char delimeter;
+    string vertexId;
+    if (instructionType.find(ADD_VERTEX_SUBSTRING) != string::npos) {
+        delimeter = ' ';
+        splitStr = splitString(instructionType, delimeter);
+        vertexId = splitStr[2];
+        splitStr.clear();
+        splitStr.push_back(vertexId);
+    }
+    return splitStr;
 }
 
 ParseHeistFile parse;
