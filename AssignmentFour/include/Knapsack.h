@@ -5,8 +5,8 @@ using namespace std;
 
 #ifndef KNAPSACK_H
 #define KNAPSACK_H
-/* This class represents a knapsack that can hold a finite number of spices in a spice heist */
 
+/* This class represents a knapsack that can hold a finite number of spices in a spice heist */
 class Knapsack {
     private:
         string capacity;

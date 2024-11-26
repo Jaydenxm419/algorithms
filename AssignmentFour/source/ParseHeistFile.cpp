@@ -7,7 +7,6 @@
 #include <iostream>
 using namespace std;
 
-const string COMMENT_INDICATOR = "--";
 
 // Split a string based on a delimiter
 vector<string> ParseHeistFile::splitString(const string& str, char delimiter) {
@@ -66,16 +65,19 @@ vector<string> ParseHeistFile::readHeistFile(string newFile) {
     return lines;
 }
 
+// Parse a graph instruction line
 vector<string> ParseHeistFile::parseGraphInstruction(string instructionType) {
     vector<string> splitStr;
     vector<string> info;
     char delimeter;
+    // If the instruction is for a vertex
     if (instructionType.find(ADD_VERTEX_SUBSTRING) != string::npos) {
         info.clear();
         delimeter = ' ';
         splitStr = splitString(instructionType, delimeter);
         info.push_back(splitStr[2]);
         splitStr.clear();
+    // If the instruction is for an edge
     } else if (instructionType.find(ADD_EDGE_SUBSTRING) != string::npos) {
         info.clear();
         delimeter = ' ';

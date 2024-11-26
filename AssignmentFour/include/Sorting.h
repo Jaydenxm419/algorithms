@@ -6,7 +6,6 @@ using namespace std;
 #ifndef SORTING_H
 #define SORTING_H
 /* This class contains methods that sort spices based their unit value */
-
 class Sorting {
     public:
         // Helper merger

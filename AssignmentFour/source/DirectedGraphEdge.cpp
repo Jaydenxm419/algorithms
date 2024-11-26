@@ -8,6 +8,7 @@ DirectedGraphEdge::DirectedGraphEdge(DirectedGraphVertex *vertex, const int &edg
 DirectedGraphVertex* DirectedGraphEdge::getVertex() {
     return this->vertex;
 }
+
 // Return the weight of the edge
 int DirectedGraphEdge::getWeight() {
     return this->edgeWeight;

@@ -5,6 +5,7 @@ using namespace std;
 
 class DirectedGraph;
 
+/* This class prints graphs in different ways  */
 class PrintDirectedGraph {
     public:
         PrintDirectedGraph();

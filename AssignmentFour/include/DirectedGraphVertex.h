@@ -6,6 +6,7 @@ using namespace std;
 #define DIRECTED_GRAPH_VERTEX_H
 
 class DirectedGraphEdge;
+/* This class represents a vertex within a graph */
 class DirectedGraphVertex {
     private:
         // Neighbors of a vertex 

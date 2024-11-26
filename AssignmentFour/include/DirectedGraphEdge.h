@@ -2,6 +2,7 @@
 #define DIRECTED_GRAPH_EDGE_H
 
 class DirectedGraphVertex;
+/* This class represents an edge between two vertices */
 class DirectedGraphEdge {
     private:
         // The vertex a predecessor vertex is pointing to 

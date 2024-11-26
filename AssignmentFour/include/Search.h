@@ -2,7 +2,7 @@
 using namespace std;
 
 class DirectedGraphVertex;
-
+/* This file contains search algorithms for graphs */
 class Search {
     public:
         Search();

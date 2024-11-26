@@ -10,6 +10,7 @@ DirectedGraph::DirectedGraph() : vertices() {}
 vector<DirectedGraphVertex*> DirectedGraph::getVertices() {
     return vertices;
 }
+
 // Add a vertex
 void DirectedGraph::addVertex(DirectedGraphVertex* vertex) {
     this->vertices.push_back(vertex);
