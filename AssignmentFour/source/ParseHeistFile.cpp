@@ -68,16 +68,27 @@ vector<string> ParseHeistFile::readHeistFile(string newFile) {
 
 vector<string> ParseHeistFile::parseGraphInstruction(string instructionType) {
     vector<string> splitStr;
+    vector<string> info;
     char delimeter;
-    string vertexId;
     if (instructionType.find(ADD_VERTEX_SUBSTRING) != string::npos) {
+        info.clear();
         delimeter = ' ';
         splitStr = splitString(instructionType, delimeter);
-        vertexId = splitStr[2];
+        info.push_back(splitStr[2]);
         splitStr.clear();
-        splitStr.push_back(vertexId);
+    } else if (instructionType.find(ADD_EDGE_SUBSTRING) != string::npos) {
+        info.clear();
+        delimeter = ' ';
+        splitStr = splitString(instructionType, delimeter);
+        info.push_back(splitStr[2]);
+        info.push_back(splitStr[4]);
+        if (splitStr.size() == 7) {
+            info.push_back(splitStr[6]);
+        } else {
+            info.push_back(splitStr[5]);
+        }
     }
-    return splitStr;
+    return info;
 }
 
 ParseHeistFile parse;

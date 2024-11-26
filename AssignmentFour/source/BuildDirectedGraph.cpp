@@ -3,6 +3,8 @@
 #include "AssignmentFour/include/DirectedGraphVertex.h"
 #include "AssignmentFour/include/ParseHeistFile.h"
 #include "AssignmentFour/include/ProjectConstants.h"
+#include "AssignmentFour/include/Search.h"
+#include "AssignmentFour/include/DirectedGraphEdge.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -24,24 +26,48 @@ DirectedGraphVertex* BuildDirectedGraph::newVertex(DirectedGraph* graph, string 
     return vertex;
 }
 
-void BuildDirectedGraph::newEdge(DirectedGraphVertex* fromVertex, DirectedGraphVertex* toVertex) {
-
+// Create a new edge instance between two vertices
+void BuildDirectedGraph::newEdge(DirectedGraphVertex* fromVertex, DirectedGraphVertex* toVertex, int weight) {
+    DirectedGraphEdge *edge = new DirectedGraphEdge(toVertex, weight);
+    fromVertex->addNeighbor(edge);
 }
 
-void BuildDirectedGraph::buildGraph(vector<string> instructions) {
-    // Current graph
+// Build graphs of vertices and edges
+vector<DirectedGraph*> BuildDirectedGraph::buildGraph(vector<string> instructions) {  
+    // To build a graph
     DirectedGraph* graph;
+    vector<DirectedGraph*> graphs;
+    // To build a vertex
     DirectedGraphVertex* vertex;
-    DirectedGraphEdge* edge;
+    vector<string> vertexInfo;
+    // To build an edge 
+    vector<DirectedGraphVertex*> vertices;
+    DirectedGraphVertex* fromVertex;
+    DirectedGraphVertex* toVertex;
+    vector<string> edgeInfo;
+    int weight;
+    // Iterate through all instructions
     for (int i = 0; i < instructions.size(); i++) {
+        // Make graphs, vertices, and edges based on the text file
         if (instructions[i].find(NEW_GRAPH_SUBSTRING) != string::npos) {
            graph = newGraph();
+           graphs.push_back(graph);
         } else if (instructions[i].find(ADD_VERTEX_SUBSTRING) != string::npos) {
-           vector<string> vertexInfo = parse.parseGraphInstruction(instructions[i]);
+           vertexInfo = parse.parseGraphInstruction(instructions[i]);
            vertex = newVertex(graph, vertexInfo[0]);
+        } else if (instructions[i].find(ADD_EDGE_SUBSTRING) != string::npos) {
+           edgeInfo = parse.parseGraphInstruction(instructions[i]);
+           vertices = graph->getVertices();
+           // Get the 'from' vertex
+           fromVertex = doSearch.doVertexSearch(edgeInfo[0], vertices);
+           // Get the 'to' vertex
+           toVertex = doSearch.doVertexSearch(edgeInfo[1], vertices);
+           // Get the weight of the edge
+           weight = std::stoi(edgeInfo[2]);
+           newEdge(fromVertex, toVertex, weight);
         }
-
     }
+    return graphs;
 }
 
 BuildDirectedGraph build;
