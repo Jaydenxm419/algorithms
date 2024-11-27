@@ -16,7 +16,7 @@ class DirectedGraphVertex {
         // Unique identifier for the vertex
         string id;
         // Final calculated weight based upon the weights of each edge to a vertex
-        int weight;
+        long weight;
     public:
         DirectedGraphVertex(const std::string& identifier);
         // Returns neighbors
@@ -30,7 +30,7 @@ class DirectedGraphVertex {
         // Return the weight 
         int getWeight();
         // Update the weight
-        void setWeight(int weight);
+        void setWeight(long weight);
         // Return the id 
         string getId();
 };

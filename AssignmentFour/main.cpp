@@ -14,6 +14,7 @@ using namespace std;
 #include "include/BuildDirectedGraph.h"
 #include "include/PrintDirectedGraph.h"
 #include "include/ProjectConstants.h"
+#include "include/Search.h"
 #include <iostream>
 
 // Contains steps for the spice hesit
@@ -27,8 +28,9 @@ void completeDirectedGraphExerice() {
     vector<string> contents = parse.readHeistFile(DIRECTED_GRAPH_FILE);
     // Build the graphs
     vector<DirectedGraph*> graphs = build.buildGraph(contents);
+
+    doSearch.doPathReset(graphs);
     // Build the adjacency list
-    print.printAdjancencyList(graphs);
 }
 
 // Complete the spice task

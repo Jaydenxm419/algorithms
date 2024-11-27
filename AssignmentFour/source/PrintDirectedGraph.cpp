@@ -33,4 +33,25 @@ void PrintDirectedGraph::printAdjancencyList(vector<DirectedGraph*> graphs) {
     }
 }
 
+// Print the edges between vertices in directed graphs
+void PrintDirectedGraph::printGraphEdges(vector<DirectedGraph*> graphs) {
+    for (int i = 0; i < graphs.size(); i++) {
+        vector<DirectedGraphVertex*> vertices = graphs[i]->getVertices();
+        for (int j = 0; j < vertices.size(); j++) {
+            // Get neighbors of the vertex
+            vector<DirectedGraphEdge*> neighbors = vertices[j]->getNeighbors();
+            for (int k = 0; k < neighbors.size(); k++) {    
+                cout << "("<< vertices[j]->getId() << ", " << neighbors[k]->getVertex()->getId() << " : " << "w = " << to_string(neighbors[k]->getWeight()) << ")";
+                cout << std::endl;
+            }
+        }
+        cout << std::endl;
+    }
+}
+
+// Find the shortest path to each vertex 
+void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
+
+}
+
 PrintDirectedGraph print;

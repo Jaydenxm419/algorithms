@@ -31,7 +31,7 @@ int DirectedGraphVertex::getWeight() {
 }
 
 // Change the weight of the shortest path
-void DirectedGraphVertex::setWeight(int weight) {
+void DirectedGraphVertex::setWeight(long weight) {
     this->weight = weight;
 }
 
