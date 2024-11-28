@@ -28,7 +28,7 @@ class DirectedGraphVertex {
         // Set the previous vertex in the shortest path
         void setPredecessor(DirectedGraphVertex* predecessor);
         // Return the weight 
-        int getWeight();
+        long getWeight();
         // Update the weight
         void setWeight(long weight);
         // Return the id 

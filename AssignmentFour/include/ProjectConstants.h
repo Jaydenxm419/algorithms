@@ -13,7 +13,7 @@ const string ADD_VERTEX_SUBSTRING = "add vertex";
 const string ADD_EDGE_SUBSTRING = "add edge";
 const string DIRECTED_GRAPH_FILE = "AssignmentFour/graphs2.txt";
 const string COMMENT_INDICATOR = "--";
-const int START_VERTEX_WEIGHT = 0;
+const long START_VERTEX_WEIGHT = 0;
 const long ABSURDLY_LARGE_VALUE = 93000000000;
 
 #endif 

@@ -49,6 +49,18 @@ void PrintDirectedGraph::printGraphEdges(vector<DirectedGraph*> graphs) {
     }
 }
 
+void PrintDirectedGraph::printVertexWeights(vector<DirectedGraph*> graphs) {
+    for (int i = 0; i < graphs.size(); i++) {
+        vector<DirectedGraphVertex*> vertices = graphs[i]->getVertices();
+        for (int j = 0; j < vertices.size(); j++) {
+            // Get neighbors of the vertex
+            vector<DirectedGraphEdge*> neighbors = vertices[j]->getNeighbors();
+            // Vertex
+            cout << "v: " << vertices[j]->getId() << ": w :"<< to_string(vertices[j]->getWeight()) << endl;
+        }
+        cout << std::endl;
+    }
+}
 // Find the shortest path to each vertex 
 void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
 

@@ -1,6 +1,7 @@
 #include "AssignmentFour/include/DirectedGraphVertex.h"
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 DirectedGraphVertex::DirectedGraphVertex(const std::string& identifier) : id(identifier), weight(), predecessor(), neighbors() {}
@@ -26,8 +27,8 @@ void DirectedGraphVertex::setPredecessor(DirectedGraphVertex* predecessor) {
 }
 
 // Return the weight of the shortest path to the vertex
-int DirectedGraphVertex::getWeight() {
-    return this->weight;
+long DirectedGraphVertex::getWeight() {
+    return weight;
 }
 
 // Change the weight of the shortest path

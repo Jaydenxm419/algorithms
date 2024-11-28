@@ -11,6 +11,7 @@ class PrintDirectedGraph {
         PrintDirectedGraph();
         void printAdjancencyList(vector<DirectedGraph*> graphs);
         void printGraphEdges(vector<DirectedGraph*> graphs);
+        void printVertexWeights(vector<DirectedGraph*> graphs);
         void doBellmanFord(vector<DirectedGraph*> graphs);
 };
 
