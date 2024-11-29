@@ -10,7 +10,7 @@ class Search {
         Search();
         DirectedGraphVertex* doVertexSearch(string id, vector<DirectedGraphVertex*> vertices);
         void doPathReset(vector<DirectedGraph*> graphs);
-        void doShortestPath(vector<DirectedGraph*> graphs);
+        bool doShortestPath(vector<DirectedGraph*> graphs);
 };
 
 extern Search doSearch;

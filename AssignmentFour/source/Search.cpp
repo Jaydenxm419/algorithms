@@ -40,35 +40,45 @@ void Search::doPathReset(vector<DirectedGraph*> graphs) {
 }
 
 // Do a Bellman-Ford algorithm to find all of the shortest paths in a directed graph
-void Search::doShortestPath(vector<DirectedGraph*> graphs) {
+bool Search::doShortestPath(vector<DirectedGraph*> graphs) {
+    // Set the initial weights to all vertices in all graphs
     doPathReset(graphs);
-    vector<DirectedGraphEdge*> savedEdges;
+    // Iterate through the graphs
     for (int i = 0; i < graphs.size(); i++) {
         vector<DirectedGraphVertex*> vertices = graphs[i]->getVertices();
-        // Iterate through all vectors
-        for (int j = 0; j < vertices.size(); j++) {
-            // Iterate through each vectors directed edges 
-            vector<DirectedGraphEdge*> edges = vertices[j]->getNeighbors();
-            for (int k = 0; k < edges.size(); k++) {
-                // If the "to vertex" cost > "from vertex" cost + edge cost 
-                savedEdges.push_back(edges[k]);
-                long toWeight = edges[k]->getVertex()->getWeight();
-                long fromWeight = (vertices[j]->getWeight() + edges[k]->getWeight());
-                if (toWeight > fromWeight) {
-                    edges[k]->getVertex()->setWeight(fromWeight);
-                    edges[k]->getVertex()->setPredecessor(vertices[j]);
+        // Iterate to cover maximum path lengths
+        for (int l = 0; l < vertices.size() - 1; l++) {
+            // Iterate vertices to discover updated shortest paths
+            for (int j = 0; j < vertices.size(); j++) {
+                DirectedGraphVertex* vertex = vertices[j];
+                vector<DirectedGraphEdge*> edges = vertex->getNeighbors();
+                // Iterate through the current vertex neighbors
+                for (int k = 0; k < edges.size(); k++) {
+                    long currentVertexWeight = edges[k]->getVertex()->getWeight();
+                    long outgoingVertexWeight = vertex->getWeight() + edges[k]->getWeight();
+                    // There is a new shortest path to the outgoing vertex
+                    if (currentVertexWeight > outgoingVertexWeight) {
+                        edges[k]->getVertex()->setWeight(outgoingVertexWeight);
+                        edges[k]->getVertex()->setPredecessor(vertex);
+                    }
                 }
             }
         }
-        // for (int j = 0; j < savedEdges.size(); j++) {
-        //     if (savedEdges[j]->getVertex()->getWeight() > savedEdges[j]->getVertex()->getPredecessor()->getWeight() && savedEdges[j]->getVertex()->getWeight() != 0) {
-        //         cout << "False" << endl;
-        //     }
-        // }
-    }
 
-    print.printVertexWeights(graphs);
-    // cout << "True" << endl;
+        for (int j = 0; j < vertices.size(); j++) {
+            DirectedGraphVertex* vertex = vertices[j];
+            vector<DirectedGraphEdge*> edges = vertices[j]->getNeighbors();
+            for (int k = 0; k < edges.size(); k++) {
+                DirectedGraphEdge* edge = edges[k];
+                if (edge->getVertex()->getWeight() > vertex->getWeight() + edge->getWeight()) {
+                    return false;
+                }
+            }
+        }
+
+    }
+    print.doBellmanFord(graphs);
+    return true;
 }
  
 Search doSearch;

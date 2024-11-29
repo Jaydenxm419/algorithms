@@ -2,7 +2,7 @@
 #include "AssignmentFour/include/DirectedGraph.h"
 #include "AssignmentFour/include/DirectedGraphVertex.h"
 #include "AssignmentFour/include/DirectedGraphEdge.h"
-
+#include <stack>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -63,7 +63,27 @@ void PrintDirectedGraph::printVertexWeights(vector<DirectedGraph*> graphs) {
 }
 // Find the shortest path to each vertex 
 void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
-
+    for (int i = 0; i < graphs.size(); i++) {
+        vector<DirectedGraphVertex*> vertices = graphs[i]->getVertices();
+        stack<DirectedGraphVertex*> myStack;
+        for (int j = 0; j < vertices.size(); j++) {
+            cout << vertices[j]->getId() << " -> ";
+            DirectedGraphVertex* vertex = vertices[j];
+            myStack.push(vertex);
+            while (vertex->getPredecessor() != nullptr) {
+                myStack.push(vertex);
+                vertex = vertex->getPredecessor();
+            } 
+            DirectedGraphVertex* myVertex;
+            while (!myStack.empty()) {
+                myVertex = myStack.top();
+                cout << myVertex->getId() << " -> ";
+                myStack.pop();
+            }
+        cout << endl;
+        }
+    }
 }
+
 
 PrintDirectedGraph print;
