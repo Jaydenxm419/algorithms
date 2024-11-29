@@ -40,7 +40,7 @@ void Search::doPathReset(vector<DirectedGraph*> graphs) {
 }
 
 // Do a Bellman-Ford algorithm to find all of the shortest paths in a directed graph
-bool Search::doShortestPath(vector<DirectedGraph*> graphs) {
+bool Search::findShortestPath(vector<DirectedGraph*> graphs) {
     // Set the initial weights to all vertices in all graphs
     doPathReset(graphs);
     // Iterate through the graphs
@@ -77,7 +77,7 @@ bool Search::doShortestPath(vector<DirectedGraph*> graphs) {
         }
 
     }
-    print.doBellmanFord(graphs);
+    print.printBellmanFord(graphs);
     return true;
 }
  

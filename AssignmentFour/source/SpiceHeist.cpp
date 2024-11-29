@@ -132,6 +132,11 @@ void SpiceHeist::buildHeistOutput(Knapsack* currentKnapsack) {
 // Calculate the correct combination to maximize a knapsacks value
 void SpiceHeist::getHighestValue(vector<Spice*> spices, vector<Knapsack*> knapsacks) {
     // Iterate through different knapsacks
+    cout << endl;
+    cout << "-----------------------";
+    cout << "SPICE HEIST";
+    cout << "-----------------------" << endl;
+    cout << endl;
     while(!knapsacks.empty()) {
         Knapsack* currentKnapsack = knapsacks.back();
         int knapsackCapacity = stoi(currentKnapsack->getCapacity());
@@ -182,5 +187,7 @@ void SpiceHeist::getHighestValue(vector<Spice*> spices, vector<Knapsack*> knapsa
         }
         // Remove the knapsack
         knapsacks.pop_back();
+        cout << endl;
     }
+    cout << "---------------------------------------------------------------------" << endl;
 }

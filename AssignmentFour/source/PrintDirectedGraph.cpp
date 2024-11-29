@@ -64,7 +64,12 @@ void PrintDirectedGraph::printVertexWeights(vector<DirectedGraph*> graphs) {
 }
 
 // Print the shortest paths to each vertex from a start vertex
-void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
+void PrintDirectedGraph::printBellmanFord(vector<DirectedGraph*> graphs) {
+    cout << endl;
+    cout << "-----------------------";
+    cout << "BELLMAN-FORD ALGORITHM";
+    cout << "-----------------------" << endl;
+    cout << endl;
     // Iterate through graphs
     for (int i = 0; i < graphs.size(); i++) {
         vector<DirectedGraphVertex*> vertices = graphs[i]->getVertices();
@@ -73,6 +78,7 @@ void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
             int numOfVertices = 0;
             stack<DirectedGraphVertex*> predecessorStack;
             DirectedGraphVertex* vertex = vertices[j];
+            DirectedGraphVertex* destination = vertex;
             // Backtrack to start vertex from each vertex
             while(vertex->getPredecessor() != nullptr) {
                 predecessorStack.push(vertex);
@@ -82,24 +88,26 @@ void PrintDirectedGraph::doBellmanFord(vector<DirectedGraph*> graphs) {
             // Consider the start vertex
             predecessorStack.push(vertex);
             // Don't include the path for the start vertex
-            if (numOfVertices <= 1) {
-                predecessorStack.pop();
+            if (numOfVertices >= 1) {
+                int index = 0;
+                // Print the paths
+                cout << vertex->getId() << POINTER_INDICATOR << destination->getId();
+                cout << " cost is " << to_string(destination->getWeight()) << "; path: ";
+                while (!predecessorStack.empty()) {
+                    cout << predecessorStack.top()->getId();
+                    vertex = predecessorStack.top();
+                    predecessorStack.pop();
+                    if (index < numOfVertices) {
+                        cout << POINTER_INDICATOR;
+                    };
+                    index++;
+                }
+                cout << endl;
             }
-            int index = 0;
-            // Print the paths
-            while (!predecessorStack.empty()) {
-                cout << predecessorStack.top()->getId();
-                vertex = predecessorStack.top();
-                predecessorStack.pop();
-                if (index < numOfVertices) {
-                    cout << " -> ";
-                };
-                index++;
-            }
-            cout << endl;
         }
+        cout << endl;
     }
-    cout << endl << endl;
+    cout << "---------------------------------------------------------------------" << endl;
 }
 
 
