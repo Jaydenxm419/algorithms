@@ -1,23 +1,20 @@
+// Spice Heist Files
 #include "include/Spice.h"
 #include "include/Knapsack.h"
 #include "include/SpiceHeist.h"
 #include "include/Sorting.h"
 #include <vector>
 #include <string>
-using namespace std;
 
-
+// Directed Graph files
 #include "include/DirectedGraph.h"
-#include "include/DirectedGraphVertex.h"
-#include "include/DirectedGraphEdge.h"
 #include "include/ParseHeistFile.h"
 #include "include/BuildDirectedGraph.h"
-#include "include/PrintDirectedGraph.h"
 #include "include/ProjectConstants.h"
 #include "include/Search.h"
-#include <iostream>
+using namespace std;
 
-// Contains steps for the spice hesit
+// Contains steps for the spice heist
 SpiceHeist doHeist;
 // Sorts the spices
 Sorting sorting;
@@ -28,9 +25,8 @@ void completeDirectedGraphExerice() {
     vector<string> contents = parse.readHeistFile(DIRECTED_GRAPH_FILE);
     // Build the graphs
     vector<DirectedGraph*> graphs = build.buildGraph(contents);
-    // print.printAdjancencyList(graphs);
+    // Find the shortest to all vertices
     doSearch.findShortestPath(graphs);
-    // Build the adjacency list
 }
 
 // Complete the spice task
@@ -49,6 +45,7 @@ void completeSpiceExercise() {
 int main() {
     // Complete the spice task
     completeSpiceExercise();
+    // Complete the directed graph task
     completeDirectedGraphExerice();
     return 0;
 }

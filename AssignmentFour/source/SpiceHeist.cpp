@@ -1,6 +1,7 @@
 #include "AssignmentFour/include/SpiceHeist.h"
 #include "AssignmentFour/include/ParseHeistFile.h"
 #include "AssignmentFour/include/Knapsack.h"
+#include "AssignmentFour/include/ProjectConstants.h"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -8,7 +9,6 @@
 using namespace std;
 
 // Class that contains file parsing methods
-const string SPICE_FILE = "AssignmentFour/spice.txt";
 
 // Create a new spice object
 Spice* SpiceHeist::newSpice(string instructions) {
