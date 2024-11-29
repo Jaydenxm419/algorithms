@@ -1,6 +1,7 @@
 #include "AssignmentFour/include/SpiceHeist.h"
 #include "AssignmentFour/include/ParseHeistFile.h"
 #include "AssignmentFour/include/Knapsack.h"
+#include "AssignmentFour/include/ProjectConstants.h"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -8,7 +9,6 @@
 using namespace std;
 
 // Class that contains file parsing methods
-ParseHeistFile parse;
 
 // Create a new spice object
 Spice* SpiceHeist::newSpice(string instructions) {
@@ -70,7 +70,7 @@ Knapsack* SpiceHeist::newKnapsack(string instructions) {
 // Get the different spices
 vector<Spice*> SpiceHeist::getSpices(string spiceStr) {
     // Get the spice information from the file
-    vector<string> lines = parse.readHeistFile();
+    vector<string> lines = parse.readHeistFile(SPICE_FILE);
     vector<Spice*> spices;
     // Iterate to find spice commands
     for (int i = 0; i < lines.size(); i++) {
@@ -88,7 +88,7 @@ vector<Spice*> SpiceHeist::getSpices(string spiceStr) {
 // Get the different knapsacks
 vector<Knapsack*> SpiceHeist::getKnapsacks(string knapsackStr) {
     // Get the spice information from the file
-    vector<string> lines = parse.readHeistFile();
+    vector<string> lines = parse.readHeistFile(SPICE_FILE);
     vector<Knapsack*> knapsacks;
     // Iterate to find knapsack commands
     for (int i = 0; i < lines.size(); i++) {
@@ -132,6 +132,11 @@ void SpiceHeist::buildHeistOutput(Knapsack* currentKnapsack) {
 // Calculate the correct combination to maximize a knapsacks value
 void SpiceHeist::getHighestValue(vector<Spice*> spices, vector<Knapsack*> knapsacks) {
     // Iterate through different knapsacks
+    cout << endl;
+    cout << "-----------------------";
+    cout << "SPICE HEIST";
+    cout << "-----------------------" << endl;
+    cout << endl;
     while(!knapsacks.empty()) {
         Knapsack* currentKnapsack = knapsacks.back();
         int knapsackCapacity = stoi(currentKnapsack->getCapacity());
@@ -182,5 +187,7 @@ void SpiceHeist::getHighestValue(vector<Spice*> spices, vector<Knapsack*> knapsa
         }
         // Remove the knapsack
         knapsacks.pop_back();
+        cout << endl;
     }
+    cout << "---------------------------------------------------------------------" << endl;
 }

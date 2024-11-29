@@ -7,7 +7,7 @@
 # g++ -g -O0 -I. AssignmentThree/main.cpp AssignmentThree/BinarySearchTree.cpp AssignmentThree/BinarySearchTreeNode.cpp AssignmentThree/Graph.cpp AssignmentThree/GraphNode.cpp -o program 
 
 # Compile Assignment 4
-g++ -g -O0 -I. AssignmentFour/main.cpp AssignmentFour/source/Spice.cpp AssignmentFour/source/Knapsack.cpp AssignmentFour/source/Sorting.cpp AssignmentFour/source/SpiceHeist.cpp AssignmentFour/source/ParseHeistFile.cpp -o program 
+g++ -g -O0 -I. AssignmentFour/main.cpp AssignmentFour/source/Spice.cpp AssignmentFour/source/Knapsack.cpp AssignmentFour/source/Sorting.cpp AssignmentFour/source/SpiceHeist.cpp AssignmentFour/source/ParseHeistFile.cpp AssignmentFour/source/DirectedGraph.cpp AssignmentFour/source/DirectedGraphVertex.cpp AssignmentFour/source/DirectedGraphEdge.cpp AssignmentFour/source/BuildDirectedGraph.cpp AssignmentFour/source/Search.cpp AssignmentFour/source/PrintDirectedGraph.cpp -o program 
 
 
 # Run the compiled executable

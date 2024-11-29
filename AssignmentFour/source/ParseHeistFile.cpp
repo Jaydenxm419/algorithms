@@ -1,12 +1,12 @@
 #include "AssignmentFour/include/ParseHeistFile.h"
+#include "AssignmentFour/include/ProjectConstants.h"
 #include <sstream>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
-const string COMMENT_INDICATOR = "--";
-const string SPICE_FILE = "AssignmentFour/spice.txt";
 
 // Split a string based on a delimiter
 vector<string> ParseHeistFile::splitString(const string& str, char delimiter) {
@@ -46,11 +46,11 @@ vector<string> ParseHeistFile::doStripLines(vector<string> lines) {
 }
 
 // Read spice file
-vector<string> ParseHeistFile::readHeistFile() {
+vector<string> ParseHeistFile::readHeistFile(string newFile) {
     // To hold each line
     vector<string> lines;
     // Read and extract lines
-    ifstream file(SPICE_FILE);
+    ifstream file(newFile);
     string line;
     if (file) {
         while (getline(file, line)) {
@@ -64,3 +64,33 @@ vector<string> ParseHeistFile::readHeistFile() {
     lines = doStripLines(lines);
     return lines;
 }
+
+// Parse a graph instruction line
+vector<string> ParseHeistFile::parseGraphInstruction(string instructionType) {
+    vector<string> splitStr;
+    vector<string> info;
+    char delimeter;
+    // If the instruction is for a vertex
+    if (instructionType.find(ADD_VERTEX_SUBSTRING) != string::npos) {
+        info.clear();
+        delimeter = ' ';
+        splitStr = splitString(instructionType, delimeter);
+        info.push_back(splitStr[2]);
+        splitStr.clear();
+    // If the instruction is for an edge
+    } else if (instructionType.find(ADD_EDGE_SUBSTRING) != string::npos) {
+        info.clear();
+        delimeter = ' ';
+        splitStr = splitString(instructionType, delimeter);
+        info.push_back(splitStr[2]);
+        info.push_back(splitStr[4]);
+        if (splitStr.size() == 7) {
+            info.push_back(splitStr[6]);
+        } else {
+            info.push_back(splitStr[5]);
+        }
+    }
+    return info;
+}
+
+ParseHeistFile parse;

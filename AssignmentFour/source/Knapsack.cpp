@@ -10,14 +10,17 @@ Knapsack::Knapsack(const string &cap) : capacity(cap), spices() {}
 string Knapsack::getCapacity() {
     return capacity;
 }
+
 // Return the spices within a knapsack
 vector<Spice*> Knapsack::getContents(){
     return spices;
 }
+
 // Add a spice to the knapsack
 void Knapsack::addSpice(Spice* spice) {
     spices.push_back(spice);
 }
+
 // Calculate the total price of the knapsack
 string Knapsack::getTotalPrice() {
     int total = 0;
