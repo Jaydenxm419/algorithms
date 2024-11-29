@@ -16,5 +16,6 @@ const string COMMENT_INDICATOR = "--";
 const string POINTER_INDICATOR = " -> ";
 const long START_VERTEX_WEIGHT = 0;
 const long ABSURDLY_LARGE_VALUE = 93000000000;
+const string BF_START_VERTEX = "1";
 
 #endif 

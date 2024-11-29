@@ -28,8 +28,8 @@ void completeDirectedGraphExerice() {
     vector<string> contents = parse.readHeistFile(DIRECTED_GRAPH_FILE);
     // Build the graphs
     vector<DirectedGraph*> graphs = build.buildGraph(contents);
-
-    doSearch.doPathReset(graphs);
+    // print.printAdjancencyList(graphs);
+    doSearch.findShortestPath(graphs);
     // Build the adjacency list
 }
 
@@ -48,7 +48,7 @@ void completeSpiceExercise() {
 // Assignment 4
 int main() {
     // Complete the spice task
-    // completeSpiceExercise();
+    completeSpiceExercise();
     completeDirectedGraphExerice();
     return 0;
 }

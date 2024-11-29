@@ -38,7 +38,6 @@ vector<DirectedGraph*> BuildDirectedGraph::buildGraph(vector<string> instruction
     DirectedGraph* graph;
     vector<DirectedGraph*> graphs;
     // To build a vertex
-    DirectedGraphVertex* vertex;
     vector<string> vertexInfo;
     // To build an edge 
     vector<DirectedGraphVertex*> vertices;
@@ -54,7 +53,7 @@ vector<DirectedGraph*> BuildDirectedGraph::buildGraph(vector<string> instruction
            graphs.push_back(graph);
         } else if (instructions[i].find(ADD_VERTEX_SUBSTRING) != string::npos) {
            vertexInfo = parse.parseGraphInstruction(instructions[i]);
-           vertex = newVertex(graph, vertexInfo[0]);
+           newVertex(graph, vertexInfo[0]);
         } else if (instructions[i].find(ADD_EDGE_SUBSTRING) != string::npos) {
            edgeInfo = parse.parseGraphInstruction(instructions[i]);
            vertices = graph->getVertices();
